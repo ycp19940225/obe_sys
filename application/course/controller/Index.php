@@ -21,7 +21,7 @@ class Index extends Controller
         $this->title = '课程列表';
         $data = db($this->table)->page(10);
         $this->assign('list',$data);
-        $this->fetch();
+        return $this->fetch();
     }
 
     public function add()
