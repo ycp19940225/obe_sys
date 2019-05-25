@@ -1,52 +1,91 @@
 <form class="layui-form layui-card" action="{:request()->url()}" data-auto="true" method="post" autocomplete="off">
     <div class="layui-card-body">
         <div class="layui-form-item">
-            <label class="layui-form-label label-required">用户账号</label>
+            <label class="layui-form-label label-required">课程名称</label>
             <div class="layui-input-block">
-                <!--{if isset($vo) and isset($vo.username)}-->
-                <input disabled value='{$vo.code|default=""}' class="layui-input layui-bg-gray">
-                <!--{else}-->
-                <input name="code" value='{$vo.code|default=""}' required pattern="^.{4,}$" placeholder="请输入4位及以上字符用户名称" class="layui-input">
+                <input name="name" value='{$vo.name|default=""}' placeholder="课程名称" class="layui-input">
                 <!--{/if}-->
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">联系手机</label>
+            <label class="layui-form-label">专业方向</label>
             <div class="layui-input-block">
-                <input type="tel" maxlength="11" autocomplete="off" autofocus name="phone" value='{$vo.phone|default=""}' pattern="^1[3-9][0-9]{9}$" placeholder="请输入联系手机" class="layui-input">
+                <input name="major_field" value='{$vo.major_field|default=""}' placeholder="请输入专业方向" class="layui-input">
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">联系邮箱</label>
+            <label class="layui-form-label">学分</label>
             <div class="layui-input-block">
-                <input name="mail" autocomplete="off" pattern="^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$" value='{$vo.mail|default=""}' placeholder="请输入联系邮箱" class="layui-input">
+                <input type="number" maxlength="11" autocomplete="off" autofocus name="credits" value='{$vo.credits|default=""}'  placeholder="课程学分" class="layui-input">
             </div>
         </div>
-        {notempty name='authorizes'}
         <div class="layui-form-item">
-            <label class="layui-form-label">访问授权</label>
+            <label class="layui-form-label">周学时</label>
             <div class="layui-input-block">
-                {if isset($vo.username) and $vo.username eq 'admin'}
-                <span class="color-desc" style="line-height:36px">超级用户不需要配置权限</span>
-                {else}
-                {foreach $authorizes as $authorize}
-                <label class="think-checkbox">
-                    {if in_array($authorize.id, $vo.authorize)}
-                    <input type="checkbox" checked name="authorize[]" value="{$authorize.id}" lay-ignore> {$authorize.title}
+                <input name="week_of_school" value='{$vo.week_of_school|default=""}' placeholder="请输入周学时" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">课程容量</label>
+            <div class="layui-input-block">
+                <input name="count" value='{$vo.count|default=""}' placeholder="请输入周学时" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">教学老师</label>
+            <div class="layui-input-block">
+                <select class="layui-select" name="teacher_id">
+                    {foreach $teacherData as $key => $teacher}
+                    {if isset($vo.teacher_id) and $vo.teacher_id eq $key}
+                    <option selected value="{$key}">{$teacher}</option>
                     {else}
-                    <input type="checkbox" name="authorize[]" value="{$authorize.id}" lay-ignore> {$authorize.title}
+                    <option value="{$key}">{$teacher}</option>
                     {/if}
-                </label>
-                {/foreach}
-                {empty name='authorizes'}<span class="color-desc" style="line-height:36px">未配置权限</span>{/empty}
-                {/if}
+                    {/foreach}
+                </select>
+
             </div>
         </div>
-        {/notempty}
         <div class="layui-form-item">
-            <label class="layui-form-label">用户描述</label>
+            <label class="layui-form-label">考核方式</label>
             <div class="layui-input-block">
-                <textarea placeholder="请输入用户描述" class="layui-textarea" name="desc">{$vo.desc|default=""}</textarea>
+                <select class="layui-select" name="evaluation_mode">
+                    {foreach $evaluationData as $key => $evaluation}
+                    {if isset($vo.evaluation_mode) and $vo.evaluation_mode eq $key}
+                    <option selected value="{$key}">{$evaluation}</option>
+                    {else}
+                    <option value="{$key}">{$evaluation}</option>
+                    {/if}
+                    {/foreach}
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">所属学院</label>
+            <div class="layui-input-block">
+                <select class="layui-select" name="college_id">
+                    {foreach $collegeData as $key => $college}
+                    {if isset($vo.college_id) and $vo.college_id eq $key}
+                    <option selected value="{$key}">{$college}</option>
+                    {else}
+                    <option value="{$key}">{$college}</option>
+                    {/if}
+                    {/foreach}
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">课程性质</label>
+            <div class="layui-input-block">
+                <select class="layui-select" name="course_type">
+                    {foreach $collegeTypeData as $key => $type}
+                    {if isset($vo.course_type) and $vo.course_type eq $key}
+                    <option selected value="{$key}">{$type}</option>
+                    {else}
+                    <option value="{$key}">{$type}</option>
+                    {/if}
+                    {/foreach}
+                </select>
             </div>
         </div>
     </div>
@@ -56,5 +95,7 @@
         <button class="layui-btn" type='submit'>保存数据</button>
         <button class="layui-btn layui-btn-danger" type='button' data-confirm="确定要取消编辑吗？" data-close>取消编辑</button>
     </div>
-    <script>window.form.render();</script>
+    <script>
+        window.form.render();
+    </script>
 </form>
