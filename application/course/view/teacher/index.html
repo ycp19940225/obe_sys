@@ -14,7 +14,7 @@
 
 {block name="content"}
 <table class="layui-table" lay-skin="line">
-    <caption class="margin-bottom-10 text-left">{include file='index/index_search'}</caption>
+    <caption class="margin-bottom-10 text-left">{include file='teacher/index_search'}</caption>
     {notempty name='list'}
     <thead>
     <tr>
@@ -25,6 +25,7 @@
         <th class='text-left nowrap' style="width:120px">教师代码</th>
         <th class='text-left nowrap' style="width:180px">性别</th>
         <th class='text-left nowrap' style="width:150px">年龄</th>
+        <th class='text-left nowrap' style="width:150px">手机号</th>
         <th class='text-left nowrap' style="width:150px">职称</th>
         <th class='text-left nowrap' style="width:150px">所属学院</th>
         <th class='text-left nowrap' style="width:150px">创建时间</th>
@@ -44,6 +45,7 @@
         </td>
         <td class='text-left nowrap'>{$sexData[$vo.sex]|default=''}</td>
         <td class='text-left nowrap'>{$vo.age|default=''}</td>
+        <td class='text-left nowrap'>{$vo.phone|default=''}</td>
         <td class='text-left nowrap'>{$titleData[$vo.title]|default=''}</td>
         <td class='text-left nowrap'>{$collegeData[$vo.college_id]|default=''}</td>
         <td class='text-left nowrap'>{$vo.create_at|default=''}</td>

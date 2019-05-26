@@ -1,0 +1,55 @@
+<fieldset>
+    <legend class="layui-bg-cyan">条件搜索</legend>
+
+    <form class="layui-form layui-form-pane form-search" action="{:request()->url()}" onsubmit="return false" method="get" autocomplete="off">
+
+        <div class="layui-form-item layui-inline">
+            <label class="layui-form-label">学生名称</label>
+            <div class="layui-input-inline">
+                <input name="name" value="{$Think.get.name|default=''}" placeholder="学生名称" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item layui-inline">
+            <label class="layui-form-label">学生代码</label>
+            <div class="layui-input-inline">
+                <input name="code" value="{$Think.get.code|default=''}" placeholder="请输入学生代码" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item layui-inline">
+            <label class="layui-form-label">所属学院</label>
+            <div class="layui-input-inline">
+                <select class="layui-select" name="college_id">
+                    <option value="">全部</option>
+                    {foreach $collegeData as $key => $college}
+                    {if isset($_GET['college_id']) and $_GET['college_id'] eq $key}
+                    <option selected value="{$key}">{$college}</option>
+                    {else}
+                    <option value="{$key}">{$college}</option>
+                    {/if}
+                    {/foreach}
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">所属班级</label>
+            <div class="layui-input-block">
+                <select class="layui-select" name="grade_id">
+                    <option value="">全部</option>
+                    {foreach $gradeData as $key => $grade}
+                    {if isset($_GET['grade_id']) and $_GET['grade_id'] eq $key}
+                    <option selected value="{$key}">{$grade}</option>
+                    {else}
+                    <option value="{$key}">{$grade}</option>
+                    {/if}
+                    {/foreach}
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item layui-inline">
+            <button class="layui-btn layui-btn-primary"><i class="layui-icon">&#xe615;</i> 搜 索</button>
+        </div>
+    </form>
+
+</fieldset>
+
+<script>form.render()</script>

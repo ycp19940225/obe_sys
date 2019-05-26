@@ -21,11 +21,11 @@ class Index extends Controller
     public function __construct()
     {
         parent::__construct();
-        $this->sexData = ['1' => '男', '0' => '女'];
-        $this->titleData = ['0' => '助教', '1' => '讲师', '2' => '副教授', '3' => '教授'];
-        $this->evaluationData = ['0' => '考察', '1' => '考试'];
+        $this->sexData = ['1' => '男', '2' => '女'];
+        $this->titleData = ['1' => '助教', '2' => '讲师', '3' => '副教授', '4' => '教授'];
+        $this->evaluationData = ['1' => '考察', '2' => '考试'];
         //公共必修、学科必修、学科选修、专业必修 、专业选修、实践选修
-        $this->collegeTypeData = ['0' => '公共必修', '1' => '学科必修', '2' => '学科选修', '3' => '专业必修', '4' => '专业选修', '5' => '实践选修'];
+        $this->collegeTypeData = ['1' => '公共必修', '2' => '学科必修', '4' => '学科选修', '5' => '专业必修', '3' => '专业选修', '6' => '实践选修'];
         $this->collegeData = db('obe_college')->where(['is_deleted' => '0'])->column('id, name', 'id');
         $this->teacherData = db('obe_teacher')->where(['is_deleted' => '0'])->column('id, name', 'id');
     }
@@ -34,7 +34,8 @@ class Index extends Controller
     {
         $this->title = '课程列表';
         $where = ['is_deleted' => '0'];
-        $this->_query($this->table)->dateBetween('login_at')->equal('status')->where($where)->page();
+//        var_dump($this->request->request());
+        $this->_query($this->table)->like('name')->equal('evaluation_mode,code,college_id,course_type,teacher_id')->where($where)->page();
     }
 
     public function add()
@@ -62,7 +63,9 @@ class Index extends Controller
     {
         if ($this->request->isGet()) {
         } elseif ($this->request->isPost()) {
-            $data['code'] = 'c_'. $data['college_id'] .'_t_' . $data['teacher_id'] . '_course_'.Data::uniqidNumberCode();
+            if (empty($data['id'])) {
+                $data['code'] = 'c_'. $data['college_id'] .'_t_' . $data['teacher_id'] . '_course_'.Data::uniqidNumberCode();
+            }
             $data['create_at'] = date('Y-m-d H:i:s');
         }
     }

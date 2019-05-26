@@ -1,0 +1,102 @@
+<form class="layui-form layui-card" action="{:request()->url()}" data-auto="true" method="post" autocomplete="off">
+    <div class="layui-card-body">
+        <div class="layui-form-item">
+            <label class="layui-form-label">所属学院</label>
+            <div class="layui-input-block">
+                <select class="layui-select" name="college_id" lay-filter="college_id" id="college_id">
+                    <option selected value="">请选择学院</option>
+                    {foreach $collegeData as $key => $college}
+                    {if isset($vo.college_id) and $vo.college_id eq $key}
+                    <option selected value="{$key}">{$college}</option>
+                    {else}
+                    <option value="{$key}">{$college}</option>
+                    {/if}
+                    {/foreach}
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">所属班级</label>
+            <div class="layui-input-block">
+                <select class="layui-select" name="grade_id" id="grade_id" lay-filter="grade_id">
+                    <option selected value="">请选择班级</option>
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">选择学生</label>
+            <div class="layui-input-block">
+                <select class="layui-select" name="student_id" id="student_id" lay-filter="student_id">
+                    <option selected value="">请选择学生</option>
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">选择课程</label>
+            <div class="layui-input-block">
+                <select class="layui-select" name="course_id" id="course_id" lay-filter="course_id">
+                    <option selected value="">请选择课程</option>
+                    {foreach $courseData as $key => $course}
+                    {if isset($vo.course_id) and $vo.course_id eq $key}
+                    <option selected value="{$key}">{$course}</option>
+                    {else}
+                    <option value="{$key}">{$course}</option>
+                    {/if}
+                    {/foreach}
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label label-required">成绩</label>
+            <div class="layui-input-block">
+                <input name="score" value='{$vo.score|default=""}' placeholder="成绩" class="layui-input">
+                <!--{/if}-->
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">备注</label>
+            <div class="layui-input-block">
+                <input name="remark" value='{$vo.remark|default=""}' placeholder="请输入备注" class="layui-input">
+            </div>
+        </div>
+    </div>
+    <div class="hr-line-dashed"></div>
+    <div class="layui-form-item text-center">
+        {notempty name='vo.id'}<input type='hidden' value='{$vo.id}' name='id'>{/notempty}
+        <button class="layui-btn" type='submit'>保存数据</button>
+        <button class="layui-btn layui-btn-danger" type='button' data-confirm="确定要取消编辑吗？" data-close>取消编辑</button>
+    </div>
+    <script>
+        window.form.render();
+        $(function () {
+            form.on('select(college_id)', function(data){
+                var college_id = data.value;
+                var data = {
+                    'college_id': college_id
+                };
+                $.post('{:url("getGradeByCollegeId")}',data, function (res) {
+                    if(res){
+                        $.each(res['data'], function (index, item) {
+                            $('#grade_id').append(new Option(item, index));// 下拉菜单里添加元素
+                        });
+                        form.render('select');
+                    }
+                });
+            });
+            form.on('select(grade_id)', function(data){
+                var grade_id = data.value;
+                var data = {
+                    'grade_id': grade_id
+                };
+                $.post('{:url("getStudentByGradeId")}',data, function (res) {
+                    if(res){
+                        $.each(res['data'], function (index, item) {
+                            $('#student_id').append(new Option(item, index));// 下拉菜单里添加元素
+                        });
+                        form.render('select');
+                    }
+                });
+            });
+        })
+    </script>
+</form>

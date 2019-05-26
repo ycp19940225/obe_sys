@@ -22,7 +22,7 @@ class College extends Controller
     {
         $this->title = '学院列表';
         $where = ['is_deleted' => '0'];
-        $this->_query($this->table)->dateBetween('login_at')->equal('status')->where($where)->page();
+        $this->_query($this->table)->like('name')->equal('status')->where($where)->page();
     }
 
     public function add()

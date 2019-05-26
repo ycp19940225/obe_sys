@@ -56,7 +56,7 @@ class User extends Controller
     public function auth()
     {
         $this->applyCsrfToken();
-        $this->_form($this->table, 'form');
+        $this->_form($this->table, 'auth');
     }
 
     /**

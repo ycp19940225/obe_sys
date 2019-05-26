@@ -4,48 +4,77 @@
     <form class="layui-form layui-form-pane form-search" action="{:request()->url()}" onsubmit="return false" method="get" autocomplete="off">
 
         <div class="layui-form-item layui-inline">
-            <label class="layui-form-label">用户账号</label>
+            <label class="layui-form-label">课程名称</label>
             <div class="layui-input-inline">
-                <input name="username" value="{$Think.get.username|default=''}" placeholder="请输入用户名" class="layui-input">
+                <input name="name" value="{$Think.get.name|default=''}" placeholder="课程名称" class="layui-input">
             </div>
         </div>
-
         <div class="layui-form-item layui-inline">
-            <label class="layui-form-label">联系手机</label>
+            <label class="layui-form-label">课程代码</label>
             <div class="layui-input-inline">
-                <input name="phone" value="{$Think.get.phone|default=''}" placeholder="请输入联系手机" class="layui-input">
+                <input name="code" value="{$Think.get.code|default=''}" placeholder="请输入课程代码" class="layui-input">
             </div>
         </div>
-
         <div class="layui-form-item layui-inline">
-            <label class="layui-form-label">电子邮箱</label>
+            <label class="layui-form-label">考核方式</label>
             <div class="layui-input-inline">
-                <input name="mail" value="{$Think.get.mail|default=''}" placeholder="请输入电子邮箱" class="layui-input">
-            </div>
-        </div>
-
-        <div class="layui-form-item layui-inline">
-            <label class="layui-form-label">使用状态</label>
-            <div class="layui-input-inline">
-                <select class="layui-select" name="status">
-                    {foreach [''=>'-- 全部 --','0'=>'已禁用的账号','1'=>'使用中的账号'] as $k=>$v}
-                    {eq name='Think.get.status' value='$k.""'}
-                    <option selected value="{$k}">{$v}</option>
+                <select class="layui-select" name="evaluation_mode">
+                    <option value="">全部</option>
+                    {foreach $evaluationData as $key => $evaluation}
+                    {if isset($_GET['evaluation_mode']) and $_GET['evaluation_mode'] eq $key}
+                    <option selected value="{$key}">{$evaluation}</option>
                     {else}
-                    <option value="{$k}">{$v}</option>
-                    {/eq}
+                    <option value="{$key}">{$evaluation}</option>
+                    {/if}
                     {/foreach}
                 </select>
             </div>
         </div>
-
         <div class="layui-form-item layui-inline">
-            <label class="layui-form-label">登录时间</label>
+            <label class="layui-form-label">所属学院</label>
             <div class="layui-input-inline">
-                <input data-date-range name="login_at" value="{$Think.get.login_at|default=''}" placeholder="请选择登录时间" class="layui-input">
+                <select class="layui-select" name="college_id">
+                    <option value="">全部</option>
+                    {foreach $collegeData as $key => $college}
+                    {if isset($_GET['college_id']) and $_GET['college_id'] eq $key}
+                    <option selected value="{$key}">{$college}</option>
+                    {else}
+                    <option value="{$key}">{$college}</option>
+                    {/if}
+                    {/foreach}
+                </select>
             </div>
         </div>
-
+        <div class="layui-form-item layui-inline">
+            <label class="layui-form-label">课程性质</label>
+            <div class="layui-input-inline">
+                <select class="layui-select" name="course_type">
+                    <option value="">全部</option>
+                    {foreach $collegeTypeData as $key => $type}
+                    {if isset($_GET['course_type']) and $_GET['course_type'] eq $key}
+                    <option selected value="{$key}">{$type}</option>
+                    {else}
+                    <option value="{$key}">{$type}</option>
+                    {/if}
+                    {/foreach}
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item layui-inline">
+            <label class="layui-form-label">教学老师</label>
+            <div class="layui-input-inline">
+                <select class="layui-select" name="teacher_id">
+                    <option value="">全部</option>
+                    {foreach $teacherData as $key => $teacher}
+                    {if isset($_GET['teacher_id']) and $_GET['teacher_id'] eq $key}
+                    <option selected value="{$key}">{$teacher}</option>
+                    {else}
+                    <option value="{$key}">{$teacher}</option>
+                    {/if}
+                    {/foreach}
+                </select>
+            </div>
+        </div>
         <div class="layui-form-item layui-inline">
             <button class="layui-btn layui-btn-primary"><i class="layui-icon">&#xe615;</i> 搜 索</button>
         </div>

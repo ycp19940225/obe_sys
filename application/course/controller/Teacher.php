@@ -30,7 +30,7 @@ class Teacher extends Controller
     {
         $this->title = '教师列表';
         $where = ['is_deleted' => '0'];
-        $this->_query($this->table)->dateBetween('login_at')->equal('status')->where($where)->page();
+        $this->_query($this->table)->like('name')->equal('phone')->where($where)->page();
     }
 
     public function add()
