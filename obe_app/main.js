@@ -1,8 +1,8 @@
 import Vue from 'vue'
 import App from './App'
 
-import basics from './pages/basics/home.vue'
-Vue.component('basics',basics)
+import obe from './pages/obe/home.vue'
+Vue.component('obe',obe)
 
 import components from './pages/component/home.vue'
 Vue.component('components',components)

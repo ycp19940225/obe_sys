@@ -1,14 +1,14 @@
 <template>
 	<view>
-		<basics v-if="PageCur=='basics'"></basics>
+		<obe v-if="PageCur=='obe'"></obe>
 		<components v-if="PageCur=='component'"></components>
 		<plugin v-if="PageCur=='plugin'"></plugin>
 		<view class="cu-bar tabbar bg-white shadow foot">
-			<view class="action" @click="NavChange" data-cur="basics">
+			<view class="action" @click="NavChange" data-cur="obe">
 				<view class='cuIcon-cu-image'>
 					<image :src="'/static/tabbar/basics' + [PageCur=='basics'?'_cur':''] + '.png'"></image>
 				</view>
-				<view :class="PageCur=='basics'?'text-green':'text-gray'">成绩统计</view>
+				<view :class="PageCur=='obe'?'text-green':'text-gray'">成绩统计</view>
 			</view>
 			<view class="action" @click="NavChange" data-cur="component">
 				<view class='cuIcon-cu-image'>
@@ -30,7 +30,7 @@
 	export default {
 		data() {
 		return {
-				PageCur: 'basics'
+				PageCur: 'obe'
 			}
 		},
 		methods: {
