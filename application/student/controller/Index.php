@@ -35,7 +35,6 @@ class Index extends Controller
     {
         $this->title = '课程列表';
         $where = ['is_deleted' => '0'];
-//        var_dump($this->request->request());
         $this->_query($this->table)->like('name')->equal('code,college_id,grade_id')->where($where)->page();
     }
 
@@ -66,6 +65,7 @@ class Index extends Controller
         } elseif ($this->request->isPost()) {
             if (empty($data['id'])) {
                 $data['code'] = 'c_'. $data['college_id'] .'_g_' . $data['grade_id'] . '_course_'.Data::uniqidNumberCode();
+                $data['password'] = md5(substr($data['id_number'],-6));
             }
             $data['create_at'] = date('Y-m-d H:i:s');
         }

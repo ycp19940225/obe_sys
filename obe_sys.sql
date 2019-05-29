@@ -1,16 +1,16 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : phpstudy
+Source Server         : 127.0.0.1_3306
 Source Server Version : 50553
-Source Host           : localhost:3306
+Source Host           : 127.0.0.1:3306
 Source Database       : obe_sys
 
 Target Server Type    : MYSQL
 Target Server Version : 50553
 File Encoding         : 65001
 
-Date: 2019-05-26 21:29:56
+Date: 2019-05-29 18:14:57
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -124,7 +124,8 @@ INSERT INTO `obe_performance` VALUES ('2', '3', '2', '1', null, '4', '99', '11',
 DROP TABLE IF EXISTS `obe_student`;
 CREATE TABLE `obe_student` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `code` varchar(255) NOT NULL DEFAULT '' COMMENT '学号',
+  `code` varchar(255) NOT NULL DEFAULT '' COMMENT '编号',
+  `student_number` varchar(64) NOT NULL DEFAULT '' COMMENT '学号',
   `college_id` int(11) NOT NULL DEFAULT '0',
   `grade_id` int(11) NOT NULL DEFAULT '0',
   `name` varchar(255) NOT NULL,
@@ -136,14 +137,16 @@ CREATE TABLE `obe_student` (
   `head` varchar(255) NOT NULL,
   `is_deleted` varchar(255) NOT NULL DEFAULT '0',
   `create_at` datetime DEFAULT NULL,
+  `id_number` varchar(255) NOT NULL DEFAULT '' COMMENT '身份证',
+  `password` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Records of obe_student
 -- ----------------------------
-INSERT INTO `obe_student` VALUES ('1', 'c_3_g_2_course_6587944764', '3', '2', '杨春坪', '21', '1', '18983663382', '', '', '', '0', '2019-05-25 22:31:37');
-INSERT INTO `obe_student` VALUES ('2', 'c_3_g_2_course_6587952139', '3', '2', '汪琦', '22', '2', '15823029033', '', '', '', '0', '2019-05-25 22:40:13');
+INSERT INTO `obe_student` VALUES ('1', 'c_3_g_2_course_6591243325', '11303060217', '3', '2', '杨春坪', '21', '1', '18983663382', '', '', '', '0', '2019-05-29 18:05:43', '500382199402254135', '686ff5653a5b3d8de770cd80bb940823');
+INSERT INTO `obe_student` VALUES ('2', 'c_3_g_2_course_6587952139', '', '3', '2', '汪琦', '22', '2', '15823029033', '', '', '', '0', '2019-05-25 22:40:13', '', '');
 
 -- ----------------------------
 -- Table structure for obe_teacher
