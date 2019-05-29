@@ -1,8 +1,8 @@
 <template>
 	<view>
 		<obe v-if="PageCur=='obe'"></obe>
-		<components v-if="PageCur=='component'"></components>
-		<plugin v-if="PageCur=='plugin'"></plugin>
+		<pick v-if="PageCur=='pick'"></pick>
+		<person v-if="PageCur=='person'"></person>
 		<view class="cu-bar tabbar bg-white shadow foot">
 			<view class="action" @click="NavChange" data-cur="obe">
 				<view class='cuIcon-cu-image'>
@@ -10,17 +10,17 @@
 				</view>
 				<view :class="PageCur=='obe'?'text-green':'text-gray'">成绩统计</view>
 			</view>
-			<view class="action" @click="NavChange" data-cur="component">
+			<view class="action" @click="NavChange" data-cur="pick">
 				<view class='cuIcon-cu-image'>
 					<image :src="'/static/tabbar/component' + [PageCur == 'component'?'_cur':''] + '.png'"></image>
 				</view>
-				<view :class="PageCur=='component'?'text-green':'text-gray'">快速选课</view>
+				<view :class="PageCur=='pick'?'text-green':'text-gray'">快速选课</view>
 			</view>
-			<view class="action" @click="NavChange" data-cur="plugin">
+			<view class="action" @click="NavChange" data-cur="person">
 				<view class='cuIcon-cu-image'>
 					<image :src="'/static/tabbar/plugin' + [PageCur == 'plugin'?'_cur':''] + '.png'"></image>
 				</view>
-				<view :class="PageCur=='plugin'?'text-green':'text-gray'">个人中心</view>
+				<view :class="PageCur=='person'?'text-green':'text-gray'">个人中心</view>
 			</view>
 		</view>
 	</view>
@@ -29,7 +29,7 @@
 <script>
 	export default {
 		data() {
-		return {
+			return {
 				PageCur: 'obe'
 			}
 		},
@@ -37,6 +37,19 @@
 			NavChange: function(e) {
 				this.PageCur = e.currentTarget.dataset.cur
 			}
+		},
+		onLoad: function() {
+			uni.getStorage({
+				key: 'userInfo',
+				success: function(res) {
+					console.log(11);
+				},
+				fail: function(res) {
+					// uni.reLaunch({
+					// 	url: '/pages/login/login'
+					// });
+				}
+			});
 		}
 	}
 </script>

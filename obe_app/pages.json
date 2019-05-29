@@ -8,7 +8,29 @@
 			}
 		},
 		{
+			"path": "pages/bottom-nav/person/person",
+			"style": {"navigationBarTitleText": "个人"}
+		},
+		{
+			"path": "pages/login/login",
+			"style": {"navigationBarTitleText": "登录"}
+		},
+		{
+			"path": "pages/login/reg",
+			"style": {"navigationBarTitleText": "注册"}
+		},
+		{
+			"path": "pages/login/forget",
+			"style": {"navigationBarTitleText": "重置密码"}
+		},
+		{
 			"path": "pages/obe/home",
+			"style": {
+				"navigationBarTitleText": ""
+			}
+		},
+		{
+			"path": "pages/obe/pick",
 			"style": {
 				"navigationBarTitleText": ""
 			}
@@ -159,6 +181,46 @@
 				"navigationBarTitleText": ""
 			}
 		}
+	],
+	// 分包加载：此配置在微信小程序里为分包加载，在5+App里始终为整包
+	"subPackages": [
+	  // 用户登录注册修改忘记密码页面
+	  {
+	    "root": "pages/user",
+	    "pages": [
+	      // 接root包路径
+	      {
+	        "path": "login/login",
+	        "style": {
+	          "navigationBarTitleText": "用户登录"
+	        }
+	      },
+	      {
+	        "path": "register/register",
+	        "style": {
+	          "navigationBarTitleText": "用户注册"
+	        }
+	      },
+	      {
+	        "path": "modify/modify",
+	        "style": {
+	          "navigationBarTitleText": "密码修改"
+	        }
+	      },
+	      {
+	        "path": "forgot/forgot",
+	        "style": {
+	          "navigationBarTitleText": "忘记密码"
+	        }
+	      },
+	      {
+	        "path": "info/info",
+	        "style": {
+	          "navigationBarTitleText": "信息设置"
+	        }
+	      }
+	    ]
+	  }
 	],
 	"globalStyle": {
 		"mp-alipay": {
