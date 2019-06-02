@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50553
 File Encoding         : 65001
 
-Date: 2019-06-01 14:33:33
+Date: 2019-06-03 00:48:09
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -30,7 +30,7 @@ CREATE TABLE `obe_college` (
   `create_admin` varchar(255) DEFAULT NULL,
   `update_admin` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4;
+) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COMMENT='学院';
 
 -- ----------------------------
 -- Records of obe_college
@@ -39,6 +39,7 @@ INSERT INTO `obe_college` VALUES ('1', '计算机学院', null, null, '1', null,
 INSERT INTO `obe_college` VALUES ('2', '计算机学院', null, null, '1', '2019-05-25 16:05:29', null, null, null);
 INSERT INTO `obe_college` VALUES ('3', '计算机学院', null, 'college_6587714704', '0', '2019-05-25 16:05:48', null, null, null);
 INSERT INTO `obe_college` VALUES ('4', '会计学院', null, 'college_6587715662', '0', '2019-05-25 16:06:06', null, null, null);
+INSERT INTO `obe_college` VALUES ('5', '', null, 'college_6594927301', '1', '2019-06-03 00:25:30', null, null, null);
 
 -- ----------------------------
 -- Table structure for obe_course
@@ -52,6 +53,7 @@ CREATE TABLE `obe_course` (
   `school_year` varchar(255) NOT NULL DEFAULT '' COMMENT '学年',
   `week_of_school` varchar(255) NOT NULL DEFAULT '' COMMENT '周学时',
   `evaluation_mode` tinyint(1) NOT NULL COMMENT '考核方式',
+  `goal_id` int(11) NOT NULL DEFAULT '0' COMMENT '教学目标ID',
   `college_id` int(11) NOT NULL DEFAULT '0' COMMENT '学院ID',
   `major_field` varchar(255) NOT NULL COMMENT '专业方向',
   `course_type` tinyint(1) NOT NULL COMMENT '课程性质',
@@ -63,34 +65,86 @@ CREATE TABLE `obe_course` (
   `update_time` datetime DEFAULT NULL,
   `create_admin` varchar(255) NOT NULL DEFAULT '',
   `update_admin` datetime NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `college_id` (`college_id`),
+  KEY `teacher_id` (`teacher_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Records of obe_course
 -- ----------------------------
-INSERT INTO `obe_course` VALUES ('1', '1', '1', '1', '', '1', '1', '1', '0', '1', '1', '0', '0', '1', null, null, '', '0000-00-00 00:00:00');
-INSERT INTO `obe_course` VALUES ('3', 'c_3_t_1_course_6587917180', '大学英语', '4', '2019-2020-1', '7', '1', '3', '计算机', '1', '90', '0', '1', '0', '2019-05-30 01:37:45', null, '', '0000-00-00 00:00:00');
-INSERT INTO `obe_course` VALUES ('4', 'c_3_t_3_course_6587759039', '大学体育', '1', '2018-2019-1', '7', '1', '3', '计算机', '1', '90', '0', '3', '0', '2019-05-30 01:37:32', null, '', '0000-00-00 00:00:00');
-INSERT INTO `obe_course` VALUES ('5', 'c_3_t_3_course_6591513396', '课程设计', '15', '2018-2019-2', '19', '2', '3', '专业实习', '1', '90', '0', '3', '0', '2019-05-30 01:35:39', null, '', '0000-00-00 00:00:00');
-INSERT INTO `obe_course` VALUES ('6', 'c_3_t_1_course_6587917180', '大学英语', '4', '2019-2020-1', '7', '1', '3', '计算机', '1', '90', '0', '1', '0', '2019-05-30 01:37:45', null, '', '0000-00-00 00:00:00');
+INSERT INTO `obe_course` VALUES ('1', '1', '1', '1', '', '1', '1', '0', '1', '0', '1', '1', '0', '0', '1', null, null, '', '0000-00-00 00:00:00');
+INSERT INTO `obe_course` VALUES ('3', 'c_3_t_1_course_6587917180', '大学英语', '4', '2019-2020-1', '7', '1', '0', '3', '计算机', '1', '90', '0', '1', '0', '2019-05-30 01:37:45', null, '', '0000-00-00 00:00:00');
+INSERT INTO `obe_course` VALUES ('4', 'c_3_t_3_course_6587759039', '大学体育', '1', '2018-2019-1', '7', '1', '0', '3', '计算机', '1', '90', '0', '3', '0', '2019-05-30 01:37:32', null, '', '0000-00-00 00:00:00');
+INSERT INTO `obe_course` VALUES ('5', 'c_3_t_3_course_6591513396', '课程设计', '15', '2018-2019-2', '19', '2', '28', '3', '专业实习', '1', '90', '0', '3', '0', '2019-06-02 23:28:44', null, '', '0000-00-00 00:00:00');
+INSERT INTO `obe_course` VALUES ('6', 'c_3_t_1_course_6587917180', '大学英语', '4', '2019-2020-1', '7', '1', '6', '3', '计算机', '1', '90', '0', '1', '0', '2019-06-03 00:03:15', null, '', '0000-00-00 00:00:00');
 
 -- ----------------------------
--- Table structure for obe_course selection_record
+-- Table structure for obe_course_knowledge
 -- ----------------------------
-DROP TABLE IF EXISTS `obe_course selection_record`;
-CREATE TABLE `obe_course selection_record` (
-  `id` int(11) NOT NULL,
-  `student_id` int(11) DEFAULT NULL,
-  `course_id` int(11) DEFAULT NULL,
-  `is_deleted` tinyint(4) DEFAULT NULL,
+DROP TABLE IF EXISTS `obe_course_knowledge`;
+CREATE TABLE `obe_course_knowledge` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `course_id` int(11) NOT NULL DEFAULT '0' COMMENT '课程ID',
+  `goal_id` int(11) NOT NULL DEFAULT '0' COMMENT '教学目标ID',
+  `knowledge_id` int(11) NOT NULL DEFAULT '0' COMMENT '知识点',
+  `is_deleted` tinyint(1) NOT NULL DEFAULT '0',
   `create_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+) ENGINE=MyISAM AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COMMENT='课程_知识点';
 
 -- ----------------------------
--- Records of obe_course selection_record
+-- Records of obe_course_knowledge
 -- ----------------------------
+INSERT INTO `obe_course_knowledge` VALUES ('14', '6', '6', '38', '0', '2019-06-03 00:03:15');
+INSERT INTO `obe_course_knowledge` VALUES ('13', '5', '28', '41', '0', '2019-06-02 23:28:44');
+
+-- ----------------------------
+-- Table structure for obe_course_selection_record
+-- ----------------------------
+DROP TABLE IF EXISTS `obe_course_selection_record`;
+CREATE TABLE `obe_course_selection_record` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `student_id` int(11) DEFAULT NULL,
+  `course_id` int(11) DEFAULT NULL,
+  `is_deleted` tinyint(4) DEFAULT '0',
+  `create_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `course_id_student_id` (`student_id`,`course_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=82 DEFAULT CHARSET=utf8mb4;
+
+-- ----------------------------
+-- Records of obe_course_selection_record
+-- ----------------------------
+INSERT INTO `obe_course_selection_record` VALUES ('79', '1', '4', '0', '2019-02-02 13:19:43');
+INSERT INTO `obe_course_selection_record` VALUES ('78', '1', '3', '0', '2019-02-02 13:10:06');
+INSERT INTO `obe_course_selection_record` VALUES ('80', '1', '5', '1', '2019-02-02 13:22:40');
+INSERT INTO `obe_course_selection_record` VALUES ('81', '1', '5', '1', '2019-06-02 13:31:04');
+
+-- ----------------------------
+-- Table structure for obe_goal
+-- ----------------------------
+DROP TABLE IF EXISTS `obe_goal`;
+CREATE TABLE `obe_goal` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL DEFAULT '',
+  `college_id` int(11) NOT NULL DEFAULT '0' COMMENT '学院ID',
+  `profession_id` int(11) NOT NULL DEFAULT '0' COMMENT '专业ID',
+  `target_id` int(11) NOT NULL DEFAULT '0' COMMENT '教学计划ID',
+  `is_deleted` tinyint(1) NOT NULL DEFAULT '0',
+  `create_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=29 DEFAULT CHARSET=utf8mb4 COMMENT='教育目标';
+
+-- ----------------------------
+-- Records of obe_goal
+-- ----------------------------
+INSERT INTO `obe_goal` VALUES ('6', '编程能力', '3', '1', '1', '0', '2019-06-02 22:05:35');
+INSERT INTO `obe_goal` VALUES ('14', '编程能量', '3', '1', '1', '1', '2019-06-02 20:43:00');
+INSERT INTO `obe_goal` VALUES ('10', '编程能量', '3', '1', '1', '1', '2019-06-02 21:54:10');
+INSERT INTO `obe_goal` VALUES ('13', '编程能量', '3', '1', '1', '1', '2019-06-02 21:56:47');
+INSERT INTO `obe_goal` VALUES ('17', '编程能量', '3', '1', '1', '1', '2019-06-02 22:00:42');
+INSERT INTO `obe_goal` VALUES ('28', '英语能力', '3', '1', '1', '0', '2019-06-02 22:08:11');
 
 -- ----------------------------
 -- Table structure for obe_grade
@@ -104,8 +158,9 @@ CREATE TABLE `obe_grade` (
   `is_deleted` tinyint(1) NOT NULL DEFAULT '0',
   `count` int(11) NOT NULL,
   `create_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4;
+  PRIMARY KEY (`id`),
+  KEY `college_id` (`college_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COMMENT='班级';
 
 -- ----------------------------
 -- Records of obe_grade
@@ -113,6 +168,30 @@ CREATE TABLE `obe_grade` (
 INSERT INTO `obe_grade` VALUES ('1', '2015级信管二班', 'teacher_6587932872', '3', '1', '0', '2019-05-25 22:08:07');
 INSERT INTO `obe_grade` VALUES ('2', '2017信管一班', 'grade_6587933508', '3', '0', '0', '2019-05-25 22:09:10');
 INSERT INTO `obe_grade` VALUES ('3', '2015级信管二班', 'grade_6587934782', '3', '0', '0', '2019-05-25 22:11:18');
+INSERT INTO `obe_grade` VALUES ('4', '搜索', 'grade_6594928859', '3', '1', '0', '2019-06-03 00:28:05');
+
+-- ----------------------------
+-- Table structure for obe_knowledge
+-- ----------------------------
+DROP TABLE IF EXISTS `obe_knowledge`;
+CREATE TABLE `obe_knowledge` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL DEFAULT '',
+  `goal_id` int(11) NOT NULL DEFAULT '0' COMMENT '教学目标ID',
+  `is_deleted` tinyint(1) NOT NULL DEFAULT '0',
+  `create_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=44 DEFAULT CHARSET=utf8mb4 COMMENT='知识点';
+
+-- ----------------------------
+-- Records of obe_knowledge
+-- ----------------------------
+INSERT INTO `obe_knowledge` VALUES ('38', 'SQL语句', '6', '0', '2019-06-02 22:05:35');
+INSERT INTO `obe_knowledge` VALUES ('39', '需求分析', '6', '0', '2019-06-02 22:05:35');
+INSERT INTO `obe_knowledge` VALUES ('40', '测试能力', '6', '0', '2019-06-02 22:05:35');
+INSERT INTO `obe_knowledge` VALUES ('43', '交流能力', '28', '0', '2019-06-02 22:08:11');
+INSERT INTO `obe_knowledge` VALUES ('42', '听写能力', '28', '0', '2019-06-02 22:08:11');
+INSERT INTO `obe_knowledge` VALUES ('41', '翻译能力', '28', '0', '2019-06-02 22:08:11');
 
 -- ----------------------------
 -- Table structure for obe_performance
@@ -129,14 +208,40 @@ CREATE TABLE `obe_performance` (
   `remark` varchar(255) DEFAULT NULL,
   `is_deleted` tinyint(1) NOT NULL DEFAULT '0',
   `create_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
+  PRIMARY KEY (`id`),
+  KEY `college_id` (`college_id`),
+  KEY `grade_id` (`grade_id`),
+  KEY `student_id` (`student_id`),
+  KEY `teacher_id` (`teacher_id`),
+  KEY `course_id` (`course_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COMMENT='成绩列表';
 
 -- ----------------------------
 -- Records of obe_performance
 -- ----------------------------
 INSERT INTO `obe_performance` VALUES ('1', '3', '2', '1', null, '6', '111', '11', '0', '2019-05-25 23:44:11');
 INSERT INTO `obe_performance` VALUES ('2', '3', '2', '1', null, '4', '99', '11', '0', '2019-05-25 23:46:25');
+
+-- ----------------------------
+-- Table structure for obe_profession
+-- ----------------------------
+DROP TABLE IF EXISTS `obe_profession`;
+CREATE TABLE `obe_profession` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  `college_id` int(11) DEFAULT '0' COMMENT '学院Id',
+  `is_deleted` tinyint(1) NOT NULL DEFAULT '0',
+  `create_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COMMENT='专业表';
+
+-- ----------------------------
+-- Records of obe_profession
+-- ----------------------------
+INSERT INTO `obe_profession` VALUES ('1', '信息管理与信息系统', '3', '0', '2019-06-02 14:45:17');
+INSERT INTO `obe_profession` VALUES ('2', '会计', '4', '0', '2019-06-02 14:46:40');
+INSERT INTO `obe_profession` VALUES ('3', '数学学院', '4', '0', '2019-06-03 00:39:22');
+INSERT INTO `obe_profession` VALUES ('4', '专业会计', '4', '0', '2019-06-03 00:44:11');
 
 -- ----------------------------
 -- Table structure for obe_student
@@ -159,14 +264,19 @@ CREATE TABLE `obe_student` (
   `create_at` datetime DEFAULT NULL,
   `id_number` varchar(255) NOT NULL DEFAULT '' COMMENT '身份证',
   `password` varchar(255) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
+  PRIMARY KEY (`id`),
+  KEY `college_id` (`college_id`),
+  KEY `grade_id` (`grade_id`),
+  KEY `user_id` (`user_id`(250))
+) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Records of obe_student
 -- ----------------------------
 INSERT INTO `obe_student` VALUES ('1', 'c_3_g_2_course_6591243325', '11303060217', '3', '2', '杨春坪', '21', '1', '18983663382', '', '', '', '0', '2019-05-29 18:05:43', '500382199402254135', '686ff5653a5b3d8de770cd80bb940823');
 INSERT INTO `obe_student` VALUES ('2', 'c_3_g_2_course_6587952139', '', '3', '2', '汪琦', '22', '2', '15823029033', '', '', '', '0', '2019-05-25 22:40:13', '', '');
+INSERT INTO `obe_student` VALUES ('3', 'c_3_g_2_course_6594932338', '11503060217', '3', '2', '马大头', '21', '1', '15923029033', '', '', '', '0', '2019-06-03 00:33:53', '500382199402254135', '686ff5653a5b3d8de770cd80bb940823');
+INSERT INTO `obe_student` VALUES ('4', 'c_3_g_2_course_6594933075', '11503060215', '3', '2', '天生', '19', '1', '18716284374', '', '', '', '0', '2019-06-03 00:35:07', '5003821994022541', '640e91c38df19bf88d275bba009dbc17');
 
 -- ----------------------------
 -- Table structure for obe_target
@@ -175,17 +285,18 @@ DROP TABLE IF EXISTS `obe_target`;
 CREATE TABLE `obe_target` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL DEFAULT '',
-  `course_id` int(11) NOT NULL DEFAULT '0' COMMENT '课程目标',
+  `college_id` int(11) NOT NULL DEFAULT '0' COMMENT '学院ID',
+  `profession_id` int(11) DEFAULT NULL COMMENT '教学目标',
   `content` text NOT NULL,
   `is_deleted` tinyint(4) NOT NULL,
   `create_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COMMENT='教学计划';
 
 -- ----------------------------
 -- Records of obe_target
 -- ----------------------------
-INSERT INTO `obe_target` VALUES ('1', '大学体育课程目标', '4', '<p>全国普通<a href=\"https://baike.baidu.com/item/%E9%AB%98%E7%AD%89%E5%AD%A6%E6%A0%A1%E4%BD%93%E8%82%B2\" target=\"_blank\">高等学校体育</a>课程教学指导纲要<sup data-ctrmap=\":1,\" data-sup=\"1\">&nbsp;[1]</sup><a name=\"ref_[1]_6310435\">&nbsp;</a></p>\r\n\r\n<p>为了全面贯彻党的教育方针，促进学生的健康发展，使当代大学生成为社会主义事业的建设者和接班人，根据《中共中央国务院关于深化教育改革全面推进素质教育的决定》和国务院批准发布实行的《<a href=\"https://baike.baidu.com/item/%E5%AD%A6%E6%A0%A1%E4%BD%93%E8%82%B2%E5%B7%A5%E4%BD%9C%E6%9D%A1%E4%BE%8B\" target=\"_blank\">学校体育工作条例</a>》的精神，在总结高等学校<a href=\"https://baike.baidu.com/item/%E4%BD%93%E8%82%B2%E8%AF%BE%E7%A8%8B\" target=\"_blank\">体育课程</a>建设和教学改革经验的基础上，特制定本纲要。</p>\r\n\r\n<p>本纲要是国家对大学生在体育课程方面的基本要求，是新时期普通高等学校制订体育<a href=\"https://baike.baidu.com/item/%E8%AF%BE%E7%A8%8B%E6%95%99%E5%AD%A6%E5%A4%A7%E7%BA%B2\" target=\"_blank\">课程教学大纲</a>，进行体育课程建设和评价的依据。</p>\r\n\r\n<p>一、课程性质</p>\r\n\r\n<p>第一条　体育课程是大学生以<a href=\"https://baike.baidu.com/item/%E8%BA%AB%E4%BD%93%E7%BB%83%E4%B9%A0\" target=\"_blank\">身体练习</a>为主要手段，通过合理的体育教育和科学的体育锻炼过程，达到增强体质、增进健康和提高体育素养为主要目标的公共必修课程；是学校课程体系的重要组成部分；是高等学校体育工作的中心环节。</p>\r\n\r\n<p>第二条　体育课程是寓促进身心和谐发展、思想品德教育、文化科学教育、生活与体育技能教育于身体活动并有机结合的教育过程；是实施素质教育和培养全面发展的人才的重要途径。</p>\r\n\r\n<p>二、课程目标</p>\r\n\r\n<p>第三条　基本目标</p>\r\n\r\n<p>基本目标是根据大多数学生的基本要求而确定的，分为五个领域目标。</p>\r\n\r\n<p>运动参与目标：积极参与各种<a href=\"https://baike.baidu.com/item/%E4%BD%93%E8%82%B2%E6%B4%BB%E5%8A%A8\" target=\"_blank\">体育活动</a>并基本形成自觉锻炼的习惯，基本形成<a href=\"https://baike.baidu.com/item/%E7%BB%88%E8%BA%AB%E4%BD%93%E8%82%B2\" target=\"_blank\">终身体育</a>的意识，能够编制可行的个人锻炼计划，具有一定的<a href=\"https://baike.baidu.com/item/%E4%BD%93%E8%82%B2%E6%96%87%E5%8C%96\" target=\"_blank\">体育文化</a>欣赏能力。</p>\r\n\r\n<p>运动技能目标：熟练掌握两项以上健身运动的基本方法和技能；能科学地进行体育锻炼，提高自己的运动能力；掌握常见运动创伤的处置方法。</p>\r\n\r\n<p>身体健康目标：能测试和评价体质健康状况，掌握有效提高身体素质、全面发展体能的知识与方法；能合理选择人体需要的健康营养食品；养成良好的行为习惯，形成健康的生活方式；具有健康的体魄。</p>\r\n\r\n<p>心理健康目标：根据自己的能力设置体育学习目标；自觉通过体育活动改善心理状态、克服心理障碍，养成积极乐观的生活态度；运用适宜的方法调节自己的情绪；在运动中体验运动的乐趣和成功的感觉。</p>\r\n\r\n<p>社会适应目标：表现出良好的<a href=\"https://baike.baidu.com/item/%E4%BD%93%E8%82%B2%E9%81%93%E5%BE%B7\" target=\"_blank\">体育道德</a>和合作精神；正确处理竞争与合作的关系。</p>\r\n\r\n<p>第四条　发展目标</p>\r\n\r\n<p>发展目标是针对部分学有所长和有<a href=\"https://baike.baidu.com/item/%E4%BD%99%E5%8A%9B\" target=\"_blank\">余力</a>的学生确定的，也可作为大多数学生的努力目标，分为五个领域目标。</p>\r\n\r\n<p>运动参与目标：形成良好的体育锻炼习惯；能独立制订适用于自身需要的<a href=\"https://baike.baidu.com/item/%E5%81%A5%E8%BA%AB%E8%BF%90%E5%8A%A8%E5%A4%84%E6%96%B9\" target=\"_blank\">健身运动处方</a>；具有较高的体育文化素养和观赏水平。</p>\r\n\r\n<p>运动技能目标：积极提高<a href=\"https://baike.baidu.com/item/%E8%BF%90%E5%8A%A8%E6%8A%80%E6%9C%AF\" target=\"_blank\">运动技术</a>水平，发展自己的运动才能，在某个运动项目上达到或相当于国家等级运动员水平；能参加有挑战性的野外活动和<a href=\"https://baike.baidu.com/item/%E8%BF%90%E5%8A%A8%E7%AB%9E%E8%B5%9B\" target=\"_blank\">运动竞赛</a>。</p>\r\n\r\n<p>身体健康目标：能选择良好的运动环境，全面发展体能，提高自身科学锻炼的能力，练就强健的体魄。</p>\r\n\r\n<p>心理健康目标：在具有挑战性的运动环境中表现出勇敢顽强的意志品质。</p>\r\n\r\n<p>社会适应目标：形成良好的行为习惯，主动关心、积极参加<a href=\"https://baike.baidu.com/item/%E7%A4%BE%E5%8C%BA%E4%BD%93%E8%82%B2\" target=\"_blank\">社区体育</a>事务。</p>\r\n\r\n<p>三、课程设置</p>\r\n\r\n<p>第五条　普通高等学校的一、二年级必须开设体育课程（四个学期共计144学时）。修满规定学分、达到基本要求是学生毕业、获得学位的必要条件之一。</p>\r\n\r\n<p>第六条　普通高等学校对三年级以上学生（包括研究生）开设体育选修课。</p>\r\n\r\n<p>四、课程结构</p>\r\n\r\n<p>第七条　为实现体育课程目标，应使课堂教学与课外、校外的体育活动有机结合，学校与社会紧密联系。要把有目的、有计划、有组织的课外体育锻炼、校外（社会、野外）活动、运动训练等纳入体育课程，形成课内外、校内外有机联系的课程结构。</p>\r\n\r\n<p>第八条　根据学校教育的总体要求和体育课程的自身规律，应面向全体学生开设多种类型的体育课程，可以打破原有的系别、班级建制，重新组合上课，以满足不同层次、不同水平、不同兴趣学生的需要。重视理论与实践相结合，在运动实践教学中注意渗透相关理论知识，并运用多种形式和现代教学手段，安排约10%的理论教学内容（每学期约4学时），扩大体育的知识面，提高学生的认知能力。</p>\r\n\r\n<p>第九条　要充分发挥学生的主体作用和教师的主导作用，努力倡导开放式、探究式教学，努力拓展体育课程的时间和空间。在教师的指导下，学生应具有自主选择课程内容、自主选择任课教师、自主选择上课时间的自由度，营造生动、活泼、主动的学习氛围。</p>\r\n\r\n<p>第十条　应把校运动队及部分确有运动特长学生的专项运动训练纳入体育课程之中。对部分身体异常和病、残、弱及个别高龄等特殊群体的学生，开设以康复、保健为主的体育课程。</p>\r\n\r\n<p>五、课程内容与教学方法</p>\r\n\r\n<p>第十一条　确定体育课程内容的主要原则是：</p>\r\n\r\n<p>健身性与文化性相结合。紧扣课程的主要目标，把&ldquo;健康第一&rdquo;的指导思想作为确定课程内容的基本出发点，同时重视课程内容的体育文化含量。</p>\r\n\r\n<p>选择性与实效性相结合。学校应根据学生的特点以及地域、气候、场馆设施等不同情况确定课程内容，课程内容应力求丰富多彩，为学生提供较大的选择空间。要注意课程内容对促进学生健康发展的实效性，并注意与中学体育课程内容的衔接。</p>\r\n\r\n<p>科学性和可接受性相结合。教学内容应与学科发展相适应，反映本学科的新进展、新成果。要以人为本，遵循大学生的身心发展规律和兴趣爱好，既要考虑主动适应学生个性发展的需要，也要考虑主动适应社会发展的需要，为学生所用，便于学生课外自学、自练。</p>\r\n\r\n<p>民族性与世界性相结合。弘扬我国<a href=\"https://baike.baidu.com/item/%E6%B0%91%E6%97%8F%E4%BC%A0%E7%BB%9F%E4%BD%93%E8%82%B2\" target=\"_blank\">民族传统体育</a>，汲取世界优秀体育文化，体现时代性、发展性、民族性和中国特色。</p>\r\n\r\n<p>充分反映和体现教育部、<a href=\"https://baike.baidu.com/item/%E5%9B%BD%E5%AE%B6%E4%BD%93%E8%82%B2%E6%80%BB%E5%B1%80\" target=\"_blank\">国家体育总局</a>制定的《<a href=\"https://baike.baidu.com/item/%E5%AD%A6%E7%94%9F%E4%BD%93%E8%B4%A8%E5%81%A5%E5%BA%B7%E6%A0%87%E5%87%86\" target=\"_blank\">学生体质健康标准</a>（试行方案）》的内容和要求。</p>\r\n\r\n<p>第十二条　教学方法要讲究个性化和多样化，提倡师生之间、学生与学生之间的多边互助活动，努力提高学生参与的积极性，最大限度地发挥学生的创造性。不仅要注重教法的研究，更要加强对学生学习方法和练习方法的指导，提高学生自学、自练的能力。</p>\r\n\r\n<p>六、课程建设与课程资源的开发</p>\r\n\r\n<p>第十三条　体育教师是课程教学的具体执行者和组织者。学校应当在上级行政部门核定的教师总编制内，按照体育课程教学计划授课、开展<a href=\"https://baike.baidu.com/item/%E8%AF%BE%E5%A4%96%E4%BD%93%E8%82%B2%E6%B4%BB%E5%8A%A8\" target=\"_blank\">课外体育活动</a>以及完成培养优秀体育人才训练的任务，配备相应数量合格的体育教师。</p>\r\n\r\n<p>第十四条　体育教师要与时俱进，努力提高自身的政治、业务素养。学校应当有目的、有计划地安排体育教师定期接受教育培训，不断完善他们的知识结构、能力结构，逐步提高学历水平，从而提高体育师资队伍的整体水平，以适应现代教育的需要。</p>\r\n\r\n<p>第十五条　体育教师在强化培养人才职能的基础上，逐步加强学校<a href=\"https://baike.baidu.com/item/%E4%BD%93%E8%82%B2%E7%A7%91%E5%AD%A6%E7%A0%94%E7%A9%B6\" target=\"_blank\">体育科学研究</a>的职能和社会服务（含社区体育）的职能，开展经常性的科学研究和教育教学的研究，不断推广优秀教学成果。</p>\r\n\r\n<p>第十六条　学校应当按照教育部发布的&ldquo;普通高等学校体育场馆设施、器材配备目录&rdquo;及有关规定进行规划和建设，创造条件满足体育课程的实际需要，采取措施延长体育场馆、设施的开放时间，提高对各项体育设施的利用率。</p>\r\n\r\n<p>第十七条　要建立、健全体育课程的各项规章制度和教师培养聘任制度；各类教学文件和教师、学生考核资料须归档立案；建立《学生体质健康标准》测试管理系统；建立体育场馆设施、器材的管理系统；逐步实现体育课程管理的科学化、系统化和计算机网络化。</p>\r\n\r\n<p>第十八条　各校应根据本纲要和学校的实际情况制订教学大纲，自主选择教学内容，有的放矢地进行教学改革和试验，加强教学过程控制，防止以改革之名行无政府主义之实的不良现象发生。根据体育课程的实际情况，为确保教学质量，课堂教学班人数一般以30人左右为宜。</p>\r\n\r\n<p>第十九条　体育课程教材的审定工作由教育部全国<a href=\"https://baike.baidu.com/item/%E9%AB%98%E6%A0%A1%E4%BD%93%E8%82%B2\" target=\"_blank\">高校体育</a>教学指导委员会统一规划与组织。本着&ldquo;一纲多本&rdquo;的原则，博采众长编写高质量的教材。未经全国高校体育课程教学指导委员会审定通过的体育课程教材，各地、各高校均不得选用，以杜绝质量低劣的教材进入课堂。</p>\r\n\r\n<p>第二十条　因时因地制宜开发利用各种课程资源是课程建设的重要途径。如：充分利用校内外有体育特长的教师、班主任、校医、家长、学生骨干等，开发人力资源。</p>\r\n\r\n<p>充分利用校内外的体育场馆设施，合理布局，合理使用有限的物力和财力，开发体育设施资源。</p>\r\n\r\n<p>做好现有运动项目的改造和对新兴、传统体育项目的利用，开发运动项目资源。</p>\r\n\r\n<p>充分利用各种媒体（广播、电视、网络等）获取信息，不断充实、更新课程内容。</p>\r\n\r\n<p>充分利用课外时间和节假日，开展<a href=\"https://baike.baidu.com/item/%E5%AE%B6%E5%BA%AD%E4%BD%93%E8%82%B2\" target=\"_blank\">家庭体育</a>、社区体育、体育夏（冬）令营、体育节、郊游等各种体育活动，开发课外和校外体育资源。</p>\r\n\r\n<p>充分利用空气、阳光、水、江、河、湖、海、沙滩、田野、森林、山地、草原、雪原、荒原等条件，开展野外生存、生活方面的教学与训练，开发自然环境资源。</p>\r\n\r\n<p>七、课程评价</p>\r\n\r\n<p>第二十一条　体育课程评价包括对学生的学习、教师的教学和课程建设等三个方面。学生的学习评价应是对学习效果和过程的评价，主要包括体能与运动技能、认知、学习态度与行为、交往与合作精神、情意表现等，通过学生自评、互评和教师评定等方式进行。评价中应淡化甄别、选拔功能，强化激励、发展功能，把学生的进步幅度纳入评价内容。教师的教学评价内容主要包括教师业务素养（专业素质、教学能力、科研能力、教学工作量）和课堂教学两个方面，可通过教师自评、学生评价、同行专家评议等方式进行。课程建设评价的内容主要包括课程结构体系、课程内容、教材建设、课程管理、师资配备与培训、体育经费、场馆设施以及课程目标的达成程度等，采用多元综合评价的方式进行。评价过程中，应重视学生的学习效果和反应，重视社会有关方面的评价意见。</p>\r\n\r\n<p>第二十二条　体育课程建设的评价由教育部组织进行。各省、自治区、直辖市教育行政部门应根据教育部有关规定制定评价方案，定期表彰和奖励有突出贡献的个人和成绩优秀的单位。教育部在四年一次的<a href=\"https://baike.baidu.com/item/%E5%85%A8%E5%9B%BD%E5%A4%A7%E5%AD%A6%E7%94%9F%E8%BF%90%E5%8A%A8%E4%BC%9A\" target=\"_blank\">全国大学生运动会</a>上进行全国性表彰和奖励，充分发挥教育评价的导向和激励作用。</p>\r\n\r\n<p>八、附则</p>\r\n\r\n<p>第二十三条　本纲要适用于全国普通高等学校。普通高等学校体育类专业不适用本纲要。</p>\r\n', '0', '2019-05-29 21:49:43');
+INSERT INTO `obe_target` VALUES ('1', '信息管理与信息系统教学目标', '1', '1', '<p>全国普通<a href=\"https://baike.baidu.com/item/%E9%AB%98%E7%AD%89%E5%AD%A6%E6%A0%A1%E4%BD%93%E8%82%B2\" target=\"_blank\">高等学校体育</a>课程教学指导纲要<sup data-ctrmap=\":1,\" data-sup=\"1\">&nbsp;[1]</sup><a name=\"ref_[1]_6310435\">&nbsp;</a></p>\r\n\r\n<p>为了全面贯彻党的教育方针，促进学生的健康发展，使当代大学生成为社会主义事业的建设者和接班人，根据《中共中央国务院关于深化教育改革全面推进素质教育的决定》和国务院批准发布实行的《<a href=\"https://baike.baidu.com/item/%E5%AD%A6%E6%A0%A1%E4%BD%93%E8%82%B2%E5%B7%A5%E4%BD%9C%E6%9D%A1%E4%BE%8B\" target=\"_blank\">学校体育工作条例</a>》的精神，在总结高等学校<a href=\"https://baike.baidu.com/item/%E4%BD%93%E8%82%B2%E8%AF%BE%E7%A8%8B\" target=\"_blank\">体育课程</a>建设和教学改革经验的基础上，特制定本纲要。</p>\r\n\r\n<p>本纲要是国家对大学生在体育课程方面的基本要求，是新时期普通高等学校制订体育<a href=\"https://baike.baidu.com/item/%E8%AF%BE%E7%A8%8B%E6%95%99%E5%AD%A6%E5%A4%A7%E7%BA%B2\" target=\"_blank\">课程教学大纲</a>，进行体育课程建设和评价的依据。</p>\r\n\r\n<p>一、课程性质</p>\r\n\r\n<p>第一条　体育课程是大学生以<a href=\"https://baike.baidu.com/item/%E8%BA%AB%E4%BD%93%E7%BB%83%E4%B9%A0\" target=\"_blank\">身体练习</a>为主要手段，通过合理的体育教育和科学的体育锻炼过程，达到增强体质、增进健康和提高体育素养为主要目标的公共必修课程；是学校课程体系的重要组成部分；是高等学校体育工作的中心环节。</p>\r\n\r\n<p>第二条　体育课程是寓促进身心和谐发展、思想品德教育、文化科学教育、生活与体育技能教育于身体活动并有机结合的教育过程；是实施素质教育和培养全面发展的人才的重要途径。</p>\r\n\r\n<p>二、课程目标</p>\r\n\r\n<p>第三条　基本目标</p>\r\n\r\n<p>基本目标是根据大多数学生的基本要求而确定的，分为五个领域目标。</p>\r\n\r\n<p>运动参与目标：积极参与各种<a href=\"https://baike.baidu.com/item/%E4%BD%93%E8%82%B2%E6%B4%BB%E5%8A%A8\" target=\"_blank\">体育活动</a>并基本形成自觉锻炼的习惯，基本形成<a href=\"https://baike.baidu.com/item/%E7%BB%88%E8%BA%AB%E4%BD%93%E8%82%B2\" target=\"_blank\">终身体育</a>的意识，能够编制可行的个人锻炼计划，具有一定的<a href=\"https://baike.baidu.com/item/%E4%BD%93%E8%82%B2%E6%96%87%E5%8C%96\" target=\"_blank\">体育文化</a>欣赏能力。</p>\r\n\r\n<p>运动技能目标：熟练掌握两项以上健身运动的基本方法和技能；能科学地进行体育锻炼，提高自己的运动能力；掌握常见运动创伤的处置方法。</p>\r\n\r\n<p>身体健康目标：能测试和评价体质健康状况，掌握有效提高身体素质、全面发展体能的知识与方法；能合理选择人体需要的健康营养食品；养成良好的行为习惯，形成健康的生活方式；具有健康的体魄。</p>\r\n\r\n<p>心理健康目标：根据自己的能力设置体育学习目标；自觉通过体育活动改善心理状态、克服心理障碍，养成积极乐观的生活态度；运用适宜的方法调节自己的情绪；在运动中体验运动的乐趣和成功的感觉。</p>\r\n\r\n<p>社会适应目标：表现出良好的<a href=\"https://baike.baidu.com/item/%E4%BD%93%E8%82%B2%E9%81%93%E5%BE%B7\" target=\"_blank\">体育道德</a>和合作精神；正确处理竞争与合作的关系。</p>\r\n\r\n<p>第四条　发展目标</p>\r\n\r\n<p>发展目标是针对部分学有所长和有<a href=\"https://baike.baidu.com/item/%E4%BD%99%E5%8A%9B\" target=\"_blank\">余力</a>的学生确定的，也可作为大多数学生的努力目标，分为五个领域目标。</p>\r\n\r\n<p>运动参与目标：形成良好的体育锻炼习惯；能独立制订适用于自身需要的<a href=\"https://baike.baidu.com/item/%E5%81%A5%E8%BA%AB%E8%BF%90%E5%8A%A8%E5%A4%84%E6%96%B9\" target=\"_blank\">健身运动处方</a>；具有较高的体育文化素养和观赏水平。</p>\r\n\r\n<p>运动技能目标：积极提高<a href=\"https://baike.baidu.com/item/%E8%BF%90%E5%8A%A8%E6%8A%80%E6%9C%AF\" target=\"_blank\">运动技术</a>水平，发展自己的运动才能，在某个运动项目上达到或相当于国家等级运动员水平；能参加有挑战性的野外活动和<a href=\"https://baike.baidu.com/item/%E8%BF%90%E5%8A%A8%E7%AB%9E%E8%B5%9B\" target=\"_blank\">运动竞赛</a>。</p>\r\n\r\n<p>身体健康目标：能选择良好的运动环境，全面发展体能，提高自身科学锻炼的能力，练就强健的体魄。</p>\r\n\r\n<p>心理健康目标：在具有挑战性的运动环境中表现出勇敢顽强的意志品质。</p>\r\n\r\n<p>社会适应目标：形成良好的行为习惯，主动关心、积极参加<a href=\"https://baike.baidu.com/item/%E7%A4%BE%E5%8C%BA%E4%BD%93%E8%82%B2\" target=\"_blank\">社区体育</a>事务。</p>\r\n\r\n<p>三、课程设置</p>\r\n\r\n<p>第五条　普通高等学校的一、二年级必须开设体育课程（四个学期共计144学时）。修满规定学分、达到基本要求是学生毕业、获得学位的必要条件之一。</p>\r\n\r\n<p>第六条　普通高等学校对三年级以上学生（包括研究生）开设体育选修课。</p>\r\n\r\n<p>四、课程结构</p>\r\n\r\n<p>第七条　为实现体育课程目标，应使课堂教学与课外、校外的体育活动有机结合，学校与社会紧密联系。要把有目的、有计划、有组织的课外体育锻炼、校外（社会、野外）活动、运动训练等纳入体育课程，形成课内外、校内外有机联系的课程结构。</p>\r\n\r\n<p>第八条　根据学校教育的总体要求和体育课程的自身规律，应面向全体学生开设多种类型的体育课程，可以打破原有的系别、班级建制，重新组合上课，以满足不同层次、不同水平、不同兴趣学生的需要。重视理论与实践相结合，在运动实践教学中注意渗透相关理论知识，并运用多种形式和现代教学手段，安排约10%的理论教学内容（每学期约4学时），扩大体育的知识面，提高学生的认知能力。</p>\r\n\r\n<p>第九条　要充分发挥学生的主体作用和教师的主导作用，努力倡导开放式、探究式教学，努力拓展体育课程的时间和空间。在教师的指导下，学生应具有自主选择课程内容、自主选择任课教师、自主选择上课时间的自由度，营造生动、活泼、主动的学习氛围。</p>\r\n\r\n<p>第十条　应把校运动队及部分确有运动特长学生的专项运动训练纳入体育课程之中。对部分身体异常和病、残、弱及个别高龄等特殊群体的学生，开设以康复、保健为主的体育课程。</p>\r\n\r\n<p>五、课程内容与教学方法</p>\r\n\r\n<p>第十一条　确定体育课程内容的主要原则是：</p>\r\n\r\n<p>健身性与文化性相结合。紧扣课程的主要目标，把&ldquo;健康第一&rdquo;的指导思想作为确定课程内容的基本出发点，同时重视课程内容的体育文化含量。</p>\r\n\r\n<p>选择性与实效性相结合。学校应根据学生的特点以及地域、气候、场馆设施等不同情况确定课程内容，课程内容应力求丰富多彩，为学生提供较大的选择空间。要注意课程内容对促进学生健康发展的实效性，并注意与中学体育课程内容的衔接。</p>\r\n\r\n<p>科学性和可接受性相结合。教学内容应与学科发展相适应，反映本学科的新进展、新成果。要以人为本，遵循大学生的身心发展规律和兴趣爱好，既要考虑主动适应学生个性发展的需要，也要考虑主动适应社会发展的需要，为学生所用，便于学生课外自学、自练。</p>\r\n\r\n<p>民族性与世界性相结合。弘扬我国<a href=\"https://baike.baidu.com/item/%E6%B0%91%E6%97%8F%E4%BC%A0%E7%BB%9F%E4%BD%93%E8%82%B2\" target=\"_blank\">民族传统体育</a>，汲取世界优秀体育文化，体现时代性、发展性、民族性和中国特色。</p>\r\n\r\n<p>充分反映和体现教育部、<a href=\"https://baike.baidu.com/item/%E5%9B%BD%E5%AE%B6%E4%BD%93%E8%82%B2%E6%80%BB%E5%B1%80\" target=\"_blank\">国家体育总局</a>制定的《<a href=\"https://baike.baidu.com/item/%E5%AD%A6%E7%94%9F%E4%BD%93%E8%B4%A8%E5%81%A5%E5%BA%B7%E6%A0%87%E5%87%86\" target=\"_blank\">学生体质健康标准</a>（试行方案）》的内容和要求。</p>\r\n\r\n<p>第十二条　教学方法要讲究个性化和多样化，提倡师生之间、学生与学生之间的多边互助活动，努力提高学生参与的积极性，最大限度地发挥学生的创造性。不仅要注重教法的研究，更要加强对学生学习方法和练习方法的指导，提高学生自学、自练的能力。</p>\r\n\r\n<p>六、课程建设与课程资源的开发</p>\r\n\r\n<p>第十三条　体育教师是课程教学的具体执行者和组织者。学校应当在上级行政部门核定的教师总编制内，按照体育课程教学计划授课、开展<a href=\"https://baike.baidu.com/item/%E8%AF%BE%E5%A4%96%E4%BD%93%E8%82%B2%E6%B4%BB%E5%8A%A8\" target=\"_blank\">课外体育活动</a>以及完成培养优秀体育人才训练的任务，配备相应数量合格的体育教师。</p>\r\n\r\n<p>第十四条　体育教师要与时俱进，努力提高自身的政治、业务素养。学校应当有目的、有计划地安排体育教师定期接受教育培训，不断完善他们的知识结构、能力结构，逐步提高学历水平，从而提高体育师资队伍的整体水平，以适应现代教育的需要。</p>\r\n\r\n<p>第十五条　体育教师在强化培养人才职能的基础上，逐步加强学校<a href=\"https://baike.baidu.com/item/%E4%BD%93%E8%82%B2%E7%A7%91%E5%AD%A6%E7%A0%94%E7%A9%B6\" target=\"_blank\">体育科学研究</a>的职能和社会服务（含社区体育）的职能，开展经常性的科学研究和教育教学的研究，不断推广优秀教学成果。</p>\r\n\r\n<p>第十六条　学校应当按照教育部发布的&ldquo;普通高等学校体育场馆设施、器材配备目录&rdquo;及有关规定进行规划和建设，创造条件满足体育课程的实际需要，采取措施延长体育场馆、设施的开放时间，提高对各项体育设施的利用率。</p>\r\n\r\n<p>第十七条　要建立、健全体育课程的各项规章制度和教师培养聘任制度；各类教学文件和教师、学生考核资料须归档立案；建立《学生体质健康标准》测试管理系统；建立体育场馆设施、器材的管理系统；逐步实现体育课程管理的科学化、系统化和计算机网络化。</p>\r\n\r\n<p>第十八条　各校应根据本纲要和学校的实际情况制订教学大纲，自主选择教学内容，有的放矢地进行教学改革和试验，加强教学过程控制，防止以改革之名行无政府主义之实的不良现象发生。根据体育课程的实际情况，为确保教学质量，课堂教学班人数一般以30人左右为宜。</p>\r\n\r\n<p>第十九条　体育课程教材的审定工作由教育部全国<a href=\"https://baike.baidu.com/item/%E9%AB%98%E6%A0%A1%E4%BD%93%E8%82%B2\" target=\"_blank\">高校体育</a>教学指导委员会统一规划与组织。本着&ldquo;一纲多本&rdquo;的原则，博采众长编写高质量的教材。未经全国高校体育课程教学指导委员会审定通过的体育课程教材，各地、各高校均不得选用，以杜绝质量低劣的教材进入课堂。</p>\r\n\r\n<p>第二十条　因时因地制宜开发利用各种课程资源是课程建设的重要途径。如：充分利用校内外有体育特长的教师、班主任、校医、家长、学生骨干等，开发人力资源。</p>\r\n\r\n<p>充分利用校内外的体育场馆设施，合理布局，合理使用有限的物力和财力，开发体育设施资源。</p>\r\n\r\n<p>做好现有运动项目的改造和对新兴、传统体育项目的利用，开发运动项目资源。</p>\r\n\r\n<p>充分利用各种媒体（广播、电视、网络等）获取信息，不断充实、更新课程内容。</p>\r\n\r\n<p>充分利用课外时间和节假日，开展<a href=\"https://baike.baidu.com/item/%E5%AE%B6%E5%BA%AD%E4%BD%93%E8%82%B2\" target=\"_blank\">家庭体育</a>、社区体育、体育夏（冬）令营、体育节、郊游等各种体育活动，开发课外和校外体育资源。</p>\r\n\r\n<p>充分利用空气、阳光、水、江、河、湖、海、沙滩、田野、森林、山地、草原、雪原、荒原等条件，开展野外生存、生活方面的教学与训练，开发自然环境资源。</p>\r\n\r\n<p>七、课程评价</p>\r\n\r\n<p>第二十一条　体育课程评价包括对学生的学习、教师的教学和课程建设等三个方面。学生的学习评价应是对学习效果和过程的评价，主要包括体能与运动技能、认知、学习态度与行为、交往与合作精神、情意表现等，通过学生自评、互评和教师评定等方式进行。评价中应淡化甄别、选拔功能，强化激励、发展功能，把学生的进步幅度纳入评价内容。教师的教学评价内容主要包括教师业务素养（专业素质、教学能力、科研能力、教学工作量）和课堂教学两个方面，可通过教师自评、学生评价、同行专家评议等方式进行。课程建设评价的内容主要包括课程结构体系、课程内容、教材建设、课程管理、师资配备与培训、体育经费、场馆设施以及课程目标的达成程度等，采用多元综合评价的方式进行。评价过程中，应重视学生的学习效果和反应，重视社会有关方面的评价意见。</p>\r\n\r\n<p>第二十二条　体育课程建设的评价由教育部组织进行。各省、自治区、直辖市教育行政部门应根据教育部有关规定制定评价方案，定期表彰和奖励有突出贡献的个人和成绩优秀的单位。教育部在四年一次的<a href=\"https://baike.baidu.com/item/%E5%85%A8%E5%9B%BD%E5%A4%A7%E5%AD%A6%E7%94%9F%E8%BF%90%E5%8A%A8%E4%BC%9A\" target=\"_blank\">全国大学生运动会</a>上进行全国性表彰和奖励，充分发挥教育评价的导向和激励作用。</p>\r\n\r\n<p>八、附则</p>\r\n\r\n<p>第二十三条　本纲要适用于全国普通高等学校。普通高等学校体育类专业不适用本纲要。</p>\r\n', '0', '2019-06-02 17:36:16');
 
 -- ----------------------------
 -- Table structure for obe_teacher
@@ -202,7 +313,8 @@ CREATE TABLE `obe_teacher` (
   `code` varchar(255) DEFAULT NULL,
   `is_deleted` tinyint(1) NOT NULL DEFAULT '0',
   `create_at` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `college_id` (`college_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
@@ -392,7 +504,7 @@ CREATE TABLE `system_log` (
   `username` varchar(50) NOT NULL DEFAULT '' COMMENT '操作人用户名',
   `create_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COMMENT='系统-日志';
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COMMENT='系统-日志';
 
 -- ----------------------------
 -- Records of system_log
@@ -413,6 +525,7 @@ INSERT INTO `system_log` VALUES ('13', 'admin/login/index', '127.0.0.1', '系统
 INSERT INTO `system_log` VALUES ('14', 'admin/login/index', '127.0.0.1', '系统管理', '用户登录系统成功', 'admin', '2019-05-30 20:38:06');
 INSERT INTO `system_log` VALUES ('15', 'admin/login/index', '127.0.0.1', '系统管理', '用户登录系统成功', 'test', '2019-05-30 20:38:58');
 INSERT INTO `system_log` VALUES ('16', 'admin/login/index', '127.0.0.1', '系统管理', '用户登录系统成功', 'admin', '2019-05-30 20:39:30');
+INSERT INTO `system_log` VALUES ('17', 'admin/login/index', '127.0.0.1', '系统管理', '用户登录系统成功', 'admin', '2019-06-02 12:02:49');
 
 -- ----------------------------
 -- Table structure for system_menu
@@ -433,7 +546,7 @@ CREATE TABLE `system_menu` (
   PRIMARY KEY (`id`) USING BTREE,
   KEY `index_system_menu_node` (`node`(191)) USING BTREE,
   KEY `index_system_menu_status` (`status`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=70 DEFAULT CHARSET=utf8mb4 COMMENT='系统-菜单';
+) ENGINE=InnoDB AUTO_INCREMENT=73 DEFAULT CHARSET=utf8mb4 COMMENT='系统-菜单';
 
 -- ----------------------------
 -- Records of system_menu
@@ -463,8 +576,11 @@ INSERT INTO `system_menu` VALUES ('64', '54', '学生信息', '', '', '#', '', '
 INSERT INTO `system_menu` VALUES ('65', '64', '学生列表', '', '', 'student/index/index', '', '_self', '0', '1', '2019-05-25 21:52:23');
 INSERT INTO `system_menu` VALUES ('66', '64', '班级列表', '', '', 'student/grade/index', '', '_self', '0', '1', '2019-05-25 21:53:19');
 INSERT INTO `system_menu` VALUES ('67', '62', '成绩列表', '', '', 'student/performance/index', '', '_self', '0', '1', '2019-05-25 22:34:04');
-INSERT INTO `system_menu` VALUES ('68', '55', '课程目标列表', '', '', 'course/target/index', '', '_self', '0', '1', '2019-05-29 21:06:17');
+INSERT INTO `system_menu` VALUES ('68', '55', '教学计划列表', '', '', 'course/target/index', '', '_self', '0', '1', '2019-05-29 21:06:17');
 INSERT INTO `system_menu` VALUES ('69', '0', '目标达成统计', '', '', 'course/analysis/index', '', '_self', '0', '1', '2019-05-29 23:14:16');
+INSERT INTO `system_menu` VALUES ('70', '55', '学生选课管理', '', '', 'course/record/index', '', '_self', '0', '1', '2019-06-02 11:54:00');
+INSERT INTO `system_menu` VALUES ('71', '57', '专业列表', '', '', 'course/profession/index', '', '_self', '0', '1', '2019-06-02 14:35:54');
+INSERT INTO `system_menu` VALUES ('72', '55', '教学目标', '', '', 'course/goal/index', '', '_self', '0', '1', '2019-06-02 15:05:13');
 
 -- ----------------------------
 -- Table structure for system_message
@@ -582,5 +698,5 @@ CREATE TABLE `system_user` (
 -- ----------------------------
 -- Records of system_user
 -- ----------------------------
-INSERT INTO `system_user` VALUES ('10000', 'admin', '21232f297a57a5a743894a0e4a801fc3', '22222222', '', '', '2019-05-30 20:39:30', '127.0.0.1', '561', '', '', '1', '0', '2015-11-13 15:14:22');
-INSERT INTO `system_user` VALUES ('10001', 'test', 'afdd0b4ad2ec172c586e2150770fbf9e', '', '', '', '2019-05-30 20:38:58', '127.0.0.1', '2', '1', '', '1', '0', '2019-04-18 13:28:23');
+INSERT INTO `system_user` VALUES ('10000', 'admin', '21232f297a57a5a743894a0e4a801fc3', '22222222', '', '', '2019-06-02 12:02:49', '127.0.0.1', '562', '', '', '1', '0', '2015-11-13 15:14:22');
+INSERT INTO `system_user` VALUES ('10001', 'test', 'afdd0b4ad2ec172c586e2150770fbf9e', '', '', '', '2019-05-30 20:38:58', '127.0.0.1', '2', '', '', '1', '0', '2019-04-18 13:28:23');
