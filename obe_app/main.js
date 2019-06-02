@@ -4,6 +4,9 @@ import App from './App'
 import obe from './pages/obe/home.vue'
 Vue.component('obe',obe)
 
+import check from './pages/login/check.vue'
+Vue.component('check',check)
+
 import person from './pages/bottom-nav/person/person.vue'
 Vue.component('person',person)
 

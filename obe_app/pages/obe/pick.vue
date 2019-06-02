@@ -13,123 +13,78 @@
 					<text class="cuIcon-title text-orange"></text> 课程列表
 				</view>
 			</view>
-			<view class="cu-list menu" :class="[menuBorder?'sm-border':'',menuCard?'card-menu margin-top':'']">
-				<view class="cu-item">
-					<view class="content padding-tb-sm">
-						<view class="pick-list">
-							<view class="">
-								<view>
-									<text class="cuIcon-pay text-blue margin-right-xs"></text>课程名称: 高数
+			<view v-for="course in courseData" :key="course.id">
+				<view class="cu-list menu" >
+					<view class="cu-item">
+						<view class="content padding-tb-sm">
+							<view class="pick-list">
+								<view class="">
+									<view>
+										<text class="cuIcon-pay text-blue margin-right-xs"></text>课程名称:
+									</view>
+									<view class="text-gray text-sm">
+										<text class="cuIcon-addressbook margin-right-xs"></text> 老师：
+									</view>
+									<view class="text-gray text-sm">
+										<text class="cuIcon-timefill margin-right-xs"></text> 课程代码:
+									</view>
+									<view class="text-gray text-sm">
+										<text class="cuIcon-timefill margin-right-xs"></text> 学分:
+										<text class="padding-lr-xl"></text>
+									</view>
+									<view class="text-gray text-sm">
+										<text class="cuIcon-timefill margin-right-xs"></text> 周学时:
+									</view>
+									<view class="text-gray text-sm">
+										<text class="cuIcon-timefill margin-right-xs"></text> 考核方式:
+									</view>
+									<view class="text-gray text-sm">
+										<text class="cuIcon-timefill margin-right-xs"></text> 课程性质:
+									</view>
 								</view>
-								<view class="text-gray text-sm">
-									<text class="cuIcon-addressbook margin-right-xs"></text> 老师：
-								</view>
-								<view class="text-gray text-sm">
-									<text class="cuIcon-timefill margin-right-xs"></text> 课程代码:
-								</view>
-								<view class="text-gray text-sm">
-									<text class="cuIcon-timefill margin-right-xs"></text> 学分:
-									<text class="padding-lr-xl"></text>
-								</view>
-								<view class="text-gray text-sm">
-									<text class="cuIcon-timefill margin-right-xs"></text> 周学时:
-								</view>
-								<view class="text-gray text-sm">
-									<text class="cuIcon-timefill margin-right-xs"></text> 考核方式:
-								</view>
-								<view class="text-gray text-sm">
-									<text class="cuIcon-timefill margin-right-xs"></text> 课程性质:
-								</view>
-							</view>
-							<view class="pick-item">
-								<view>
-									<text class="text-blue margin-right-xs"></text>
-								</view>
-								<view class="text-gray text-sm">
-									<text class="margin-right-xs"></text> 周开发：
-								</view>
-								<view class="text-gray text-sm">
-									<text class="margin-right-xs"></text> 22222222222222:
-								</view>
-								<view class="text-gray text-sm">
-									<text class="margin-right-xs"></text> 5:
-								</view>
-								<view class="text-gray text-sm">
-									<text class="margin-right-xs"></text> 2打发:
-								</view>
-								<view class="text-gray text-sm">
-									<text class="margin-right-xs"></text> 2仍然若:
-								</view>
-								<view class="text-gray text-sm">
-									<text class="margin-right-xs"></text> 课程性质:
+								<view class="pick-item">
+									<view>
+										<text class="text-blue margin-right-xs"></text>{{course.name}}
+									</view>
+									<view class="text-gray text-sm">
+										<text class="margin-right-xs"></text> {{course.teacherName}}
+									</view>
+									<view class="text-gray text-sm">
+										<text class="margin-right-xs"></text> {{course.code}}
+									</view>
+									<view class="text-gray text-sm">
+										<text class="margin-right-xs"></text> {{course.credits}}
+									</view>
+									<view class="text-gray text-sm">
+										<text class="margin-right-xs"></text> {{course.week_of_school}}
+									</view>
+									<view class="text-gray text-sm">
+										<text class="margin-right-xs"></text> {{course.evaluation_mode}}
+									</view>
+									<view class="text-gray text-sm">
+										<text class="margin-right-xs"></text> {{course.course_type}}
+									</view>
 								</view>
 							</view>
 						</view>
-					</view>
-					<view class="action">
-						<switch class="swiper-item" @change="SwitchSex" :class="skin?'checked':''" :checked="skin?true:false"></switch>
+						<view class="action">
+							<switch class="swiper-item" :data-id="course.id" @change="SwitchCourse" :class="course.checked?'checked':''" :checked="course.checked"></switch>
+						</view>
 					</view>
 				</view>
+
 			</view>
 		</scroll-view>
 	</view>
 </template>
 
 <script>
+	import qs from 'qs';
 	export default {
 		data() {
 			return {
-				iconList: [{
-					icon: 'cardboardfill',
-					color: 'red',
-					badge: 120,
-					name: 'VR'
-				}, {
-					icon: 'recordfill',
-					color: 'orange',
-					badge: 1,
-					name: '录像'
-				}, {
-					icon: 'picfill',
-					color: 'yellow',
-					badge: 0,
-					name: '图像'
-				}, {
-					icon: 'noticefill',
-					color: 'olive',
-					badge: 22,
-					name: '通知'
-				}, {
-					icon: 'upstagefill',
-					color: 'cyan',
-					badge: 0,
-					name: '排行榜'
-				}, {
-					icon: 'clothesfill',
-					color: 'blue',
-					badge: 0,
-					name: '皮肤'
-				}, {
-					icon: 'discoverfill',
-					color: 'purple',
-					badge: 0,
-					name: '发现'
-				}, {
-					icon: 'questionfill',
-					color: 'mauve',
-					badge: 0,
-					name: '帮助'
-				}, {
-					icon: 'commandfill',
-					color: 'purple',
-					badge: 0,
-					name: '问答'
-				}, {
-					icon: 'brandfill',
-					color: 'mauve',
-					badge: 0,
-					name: '版权'
-				}],
+				userId: '',
+				courseData: [],
 				modalName: null,
 				gridCol: 3,
 				gridBorder: false,
@@ -142,29 +97,64 @@
 			};
 		},
 		methods: {
-			showModal(e) {
-				this.modalName = e.currentTarget.dataset.target
-			},
-			hideModal(e) {
-				this.modalName = null
-			},
-			Gridchange(e) {
-				this.gridCol = e.detail.value
-			},
-			Gridswitch(e) {
-				this.gridBorder = e.detail.value
-			},
-			MenuBorder(e) {
-				this.menuBorder = e.detail.value
-			},
-			MenuArrow(e) {
-				this.menuArrow = e.detail.value
-			},
-			MenuCard(e) {
-				this.menuCard = e.detail.value
-			},
-			SwitchSex(e) {
-				this.skin = e.detail.value
+			//选课
+			SwitchCourse(e) {
+				let _this = this;
+				_this.skin = e.detail.value
+				let courseId = e.currentTarget.dataset.id;
+				let type = e.detail.value;
+				let userId;
+				uni.getStorage({
+					key: 'userInfo',
+					success: function(res) {
+						let userData = JSON.parse(res.data);
+						userId = userData.id
+					},
+				});
+				//变换颜色
+				let tempArray = new Array();
+				let courseData = _this.courseData;
+				for (let i in courseData) {
+					console.log(courseData[i]['id'])
+					if(courseData[i]['id'] == courseId){
+						courseData[i].checked = type
+						tempArray.push(_this.courseData[i])
+					}else{
+						tempArray.push(courseData[i])
+					}
+				}
+				console.log(tempArray)
+				_this.courseData = tempArray;
+				let data = {
+					'courseId': courseId,
+					'userId': userId,
+					'type': type
+				}
+				data = qs.stringify(data)
+				console.log(type)
+				uni.request({
+					url: 'http://www.obe_sys.com/api/index/selectionCourse',
+					header: {
+						'content-type': 'application/x-www-form-urlencoded',
+					},
+					data: data,
+					method: 'POST',
+					dataType: 'json',
+					success: (res) => {
+						console.log(res)
+						if (res.data.code != 1) {
+							uni.showToast({
+								title: res.data.info,
+								icon: 'none'
+							});
+						} else {
+							uni.showToast({
+								title: res.data.info,
+								icon: 'none'
+							});
+						}
+					}
+				});
 			},
 
 			// ListTouch触摸开始
@@ -186,6 +176,33 @@
 				}
 				this.listTouchDirection = null
 			}
+		},
+		mounted: function() {
+			var _this = this;
+			uni.request({
+				url: 'http://www.obe_sys.com/api/index/getCourse',
+				header: {
+					'content-type': 'application/x-www-form-urlencoded',
+				},
+				method: 'GET',
+				dataType: 'json',
+				success: (res) => {
+					console.log(res)
+					if (res.data.code != 1) {
+						uni.showToast({
+							title: res.data.info,
+							icon: 'none'
+						});
+					} else {
+						var data = res.data.data
+						var tempArray = new Array();
+						for (let i in data) {
+							tempArray.push(data[i])
+						}
+						_this.courseData = tempArray;
+					}
+				}
+			});
 		}
 	}
 </script>

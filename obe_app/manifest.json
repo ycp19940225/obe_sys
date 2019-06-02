@@ -1,8 +1,8 @@
 {
-    "name" : "ColorUI-UniApp",
+    "name" : "OBE_学生选课APP",
     "appid" : "__UNI__7D2E197",
     "description" : "",
-    "versionName" : "ColorUi for UniApp 2.1.4",
+    "versionName" : "OBE_2.1.4",
     "versionCode" : 214,
     "transformPx" : false,
     "app-plus" : {
@@ -55,7 +55,15 @@
         }
     },
     "h5" : {
-        "title" : "ColorUi for UniApp",
+        "title" : "OBE_学生选课APP",
         "domain" : "demo.color-ui.com"
+        // "disableHostCheck" : true,
+        // "proxy" : {
+        //     "/api" : {
+        //         "target" : "http://www.obe_sys.com",
+        //         "changeOrigin" : true,
+        //         "secure" : false
+        //     }
+        // }
     }
 }

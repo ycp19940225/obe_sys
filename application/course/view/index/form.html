@@ -20,6 +20,12 @@
             </div>
         </div>
         <div class="layui-form-item">
+            <label class="layui-form-label">学年</label>
+            <div class="layui-input-block">
+                <input type="text"  autocomplete="off" autofocus name="school_year" value='{$vo.school_year|default=""}'  placeholder="学年" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
             <label class="layui-form-label">周学时</label>
             <div class="layui-input-block">
                 <input name="week_of_school" value='{$vo.week_of_school|default=""}' placeholder="请输入周学时" class="layui-input">

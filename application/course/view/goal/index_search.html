@@ -30,36 +30,6 @@
             </div>
         </div>
         <div class="layui-form-item layui-inline">
-            <label class="layui-form-label">所属班级</label>
-            <div class="layui-input-block">
-                <select class="layui-select" name="grade_id">
-                    <option value="">全部</option>
-                    {foreach $gradeData as $key => $grade}
-                    {if isset($_GET['grade_id']) and $_GET['grade_id'] eq $key}
-                    <option selected value="{$key}">{$grade}</option>
-                    {else}
-                    <option value="{$key}">{$grade}</option>
-                    {/if}
-                    {/foreach}
-                </select>
-            </div>
-        </div>
-        <div class="layui-form-item layui-inline">
-            <label class="layui-form-label">所属课程</label>
-            <div class="layui-input-block">
-                <select class="layui-select" name="course_id" id="course_id" lay-filter="course_id">
-                    <option selected value="">全部</option>
-                    {foreach $courseData as $key => $course}
-                    {if isset($_GET['course_id']) and $_GET['course_id'] eq $key}
-                    <option selected value="{$key}">{$course}</option>
-                    {else}
-                    <option value="{$key}">{$course}</option>
-                    {/if}
-                    {/foreach}
-                </select>
-            </div>
-        </div>
-        <div class="layui-form-item layui-inline">
             <button class="layui-btn layui-btn-primary"><i class="layui-icon">&#xe615;</i> 搜 索</button>
         </div>
     </form>

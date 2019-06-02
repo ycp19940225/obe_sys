@@ -1,0 +1,25 @@
+<fieldset>
+    <legend class="layui-bg-cyan">条件搜索</legend>
+    <form class="layui-form layui-form-pane form-search" action="{:request()->url()}" onsubmit="return false" method="get" autocomplete="off">
+        <div class="layui-form-item layui-inline">
+            <label class="layui-form-label">所属课程</label>
+            <div class="layui-input-block">
+                <select class="layui-select" name="course_id" id="course_id" lay-filter="course_id">
+                    <option selected value="">全部</option>
+                    {foreach $courseData as $key => $course}
+                    {if isset($_GET['course_id']) and $_GET['course_id'] eq $course['id']}
+                    <option selected value="{$course['id']}">{$course['name']}</option>
+                    {else}
+                    <option value="{$course['id']}">{$course['name']}</option>
+                    {/if}
+                    {/foreach}
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item layui-inline">
+            <button class="layui-btn layui-btn-primary"><i class="layui-icon">&#xe615;</i> 搜 索</button>
+        </div>
+    </form>
+</fieldset>
+
+<script>form.render()</script>

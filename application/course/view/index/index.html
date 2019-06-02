@@ -24,6 +24,7 @@
         <th class='text-left nowrap' style="width:120px">课程名称</th>
         <th class='text-left nowrap' style="width:120px">课程代码</th>
         <th class='text-left nowrap' style="width:180px">学分</th>
+        <th class='text-left nowrap' style="width:180px">学年</th>
         <th class='text-left nowrap' style="width:150px">周学时</th>
         <th class='text-left nowrap' style="width:150px">考核方式</th>
         <th class='text-left nowrap' style="width:150px">开课学院</th>
@@ -48,6 +49,7 @@
             {$vo.code|default=0}
         </td>
         <td class='text-left nowrap'>{$vo.credits}</td>
+        <td class='text-left nowrap'>{$vo.school_year}</td>
         <td class='text-left nowrap'>{$vo.week_of_school}</td>
         <td class='text-left nowrap'>{$evaluationData[$vo.evaluation_mode]}</td>
         <td class='text-left nowrap'>{$collegeData[$vo.college_id]}</td>

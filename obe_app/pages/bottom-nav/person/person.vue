@@ -3,8 +3,8 @@
     <view class="person-head">
       <cmd-avatar src="https://avatar.bbs.miui.com/images/noavatar_small.gif" @click="fnInfoWin" size="lg" :make="{'background-color': '#fff'}"></cmd-avatar>
       <view class="person-head-box">
-        <view class="person-head-nickname">Slimmer</view>
-        <view class="person-head-username">ID：slimmer9501</view>
+        <view class="person-head-nickname">{{userName}}</view>
+        <view class="person-head-username">学号：{{ID}}</view>
       </view>
     </view>
     <view class="person-list">
@@ -36,7 +36,10 @@
       cmdIcon
     },
     data() {
-      return {};
+      return {
+				userName:'',
+				ID:''
+			};
     },
     methods: {
       /**
@@ -47,7 +50,19 @@
           url: '/pages/user/info/info'
         })
       }
-    }
+    },
+		mounted: function() {
+			var _this = this;
+			uni.getStorage({
+				key: 'userInfo',
+				success: function(res) {
+					let userinfo = JSON.parse(res.data);
+					// console.log(userinfo)
+					_this.userName = userinfo.name
+					_this.ID = userinfo.code
+				},
+			});
+			}
   }
 </script>
 

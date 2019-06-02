@@ -3,23 +3,23 @@
 		<view class="header">
 			<image src="../../static/shilu-login/logo.png"></image>
 		</view>
-		
+
 		<view class="list">
 			<view class="list-call">
 				<image class="img" src="/static/shilu-login/1.png"></image>
-				<input class="biaoti" v-model="phoneno" type="number" maxlength="11" placeholder="输入手机号" />
+				<input class="biaoti" v-model="phoneno" type="number" maxlength="11" placeholder="输入账号" />
 			</view>
 			<view class="list-call">
 				<image class="img" src="/static/shilu-login/2.png"></image>
 				<input class="biaoti" v-model="password" type="text" maxlength="32" placeholder="输入密码" password="true" />
 			</view>
-			
+
 		</view>
-		
+
 		<view class="dlbutton" hover-class="dlbutton-hover" @tap="bindLogin()">
 			<text>登录</text>
 		</view>
-		
+
 		<view class="xieyi">
 			<navigator url="forget" open-type="navigate">忘记密码</navigator>
 			<text>|</text>
@@ -29,55 +29,80 @@
 </template>
 
 <script>
+	import qs from 'qs';
 	var tha;
-	import {mapMutations} from 'vuex';
+	import {
+		mapMutations
+	} from 'vuex';
 	export default {
-		onLoad(){
+		onLoad() {
 			tha = this;
 		},
 		data() {
 			return {
-				phoneno:'',
-				password:''
+				phoneno: '11303060217',
+				password: '254135'
 			};
 		},
 		methods: {
 			...mapMutations(['login']),
-		    bindLogin() {
-				if (this.phoneno.length != 11) {
-				     uni.showToast({
-				        icon: 'none',
-				        title: '手机号不正确'
-				    });
-				    return;
+			bindLogin() {
+				if (this.phoneno.length == 0) {
+					uni.showToast({
+						icon: 'none',
+						title: '请输入账号'
+					});
+					return;
 				}
-		        if (this.password.length < 6) {
-		            uni.showToast({
-		                icon: 'none',
-		                title: '密码不正确'
-		            });
-		            return;
-		        }
+				if (this.password.length < 6) {
+					uni.showToast({
+						icon: 'none',
+						title: '密码不正确'
+					});
+					return;
+				}
+				var data = {
+						account: this.phoneno,
+						password: this.password
+					}
+					data = qs.stringify(data)
 				uni.request({
-				    url: 'http://***/login.html',
-				    data: {
-						phoneno:this.phoneno,
-						password:this.password
+					url: 'http://www.obe_sys.com/api/index/login',
+					header: {
+						'content-type': 'application/x-www-form-urlencoded',
 					},
+					data: data,
 					method: 'POST',
-					dataType:'json',
-				    success: (res) => {
-						if(res.data.code!=200){
-							uni.showToast({title:res.data.msg,icon:'none'});
-						}else{
-							uni.setStorageSync('user_data', JSON.stringify(res.data.data));
-							this.login();
-							uni.navigateBack();
+					dataType: 'json',
+					success: (res) => {
+						console.log(res)
+						if (res.data.code != 1) {
+							uni.showToast({
+								title: res.data.info,
+								icon: 'none'
+							});
+						} else {
+							uni.showToast({
+								title: res.data.info,
+								icon: 'none'
+							});
+							uni.setStorageSync('userInfo', JSON.stringify(res.data.data));
+							uni.getStorage({
+								key: 'userInfo',
+								success: function(res) {
+									uni.reLaunch({
+										url: '/pages/index/index'
+									});
+								},
+								fail: function(res) {
+
+								}
+							});
 						}
-				    }
+					}
 				});
-				
-		    }
+
+			}
 		}
 	}
 </script>
@@ -86,24 +111,26 @@
 	.content {
 		display: flex;
 		flex-direction: column;
-		justify-content:center;
+		justify-content: center;
 	}
+
 	.header {
-		width:161upx;
-		height:161upx;
-		background:rgba(63,205,235,1);
-		box-shadow:0upx 12upx 13upx 0upx rgba(63,205,235,0.47);
-		border-radius:50%;
+		width: 161upx;
+		height: 161upx;
+		background: rgba(63, 205, 235, 1);
+		box-shadow: 0upx 12upx 13upx 0upx rgba(63, 205, 235, 0.47);
+		border-radius: 50%;
 		margin-top: 30upx;
 		margin-left: auto;
 		margin-right: auto;
 	}
-	.header image{
-		width:161upx;
-		height:161upx;
-		border-radius:50%;
+
+	.header image {
+		width: 161upx;
+		height: 161upx;
+		border-radius: 50%;
 	}
-	
+
 	.list {
 		display: flex;
 		flex-direction: column;
@@ -111,20 +138,23 @@
 		padding-left: 70upx;
 		padding-right: 70upx;
 	}
-	.list-call{
+
+	.list-call {
 		display: flex;
 		flex-direction: row;
 		justify-content: space-between;
 		align-items: center;
 		height: 100upx;
 		color: #333333;
-		border-bottom: 1upx solid rgba(230,230,230,1);
+		border-bottom: 1upx solid rgba(230, 230, 230, 1);
 	}
-	.list-call .img{
+
+	.list-call .img {
 		width: 40upx;
 		height: 40upx;
 	}
-	.list-call .biaoti{
+
+	.list-call .biaoti {
 		flex: 1;
 		text-align: left;
 		font-size: 32upx;
@@ -135,21 +165,23 @@
 	.dlbutton {
 		color: #FFFFFF;
 		font-size: 34upx;
-		width:470upx;
-		height:100upx;
-		background:linear-gradient(-90deg,rgba(63,205,235,1),rgba(188,226,158,1));
-		box-shadow:0upx 0upx 13upx 0upx rgba(164,217,228,0.2);
-		border-radius:50upx;
+		width: 470upx;
+		height: 100upx;
+		background: linear-gradient(-90deg, rgba(63, 205, 235, 1), rgba(188, 226, 158, 1));
+		box-shadow: 0upx 0upx 13upx 0upx rgba(164, 217, 228, 0.2);
+		border-radius: 50upx;
 		line-height: 100upx;
 		text-align: center;
 		margin-left: auto;
 		margin-right: auto;
 		margin-top: 100upx;
 	}
+
 	.dlbutton-hover {
-		background:linear-gradient(-90deg,rgba(63,205,235,0.9),rgba(188,226,158,0.9));
+		background: linear-gradient(-90deg, rgba(63, 205, 235, 0.9), rgba(188, 226, 158, 0.9));
 	}
-	.xieyi{
+
+	.xieyi {
 		display: flex;
 		flex-direction: row;
 		justify-content: center;
@@ -161,7 +193,8 @@
 		height: 40upx;
 		line-height: 40upx;
 	}
-	.xieyi text{
+
+	.xieyi text {
 		font-size: 24upx;
 		margin-left: 15upx;
 		margin-right: 15upx;

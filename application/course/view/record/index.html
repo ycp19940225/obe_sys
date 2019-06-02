@@ -1,0 +1,85 @@
+{extend name='admin@main'}
+
+{block name="button"}
+
+{if auth("admin/user/add")}
+<button data-modal='{:url("add")}' data-title="添加选课记录" class='layui-btn layui-btn-sm layui-btn-primary'>添加选课记录</button>
+{/if}
+
+{if auth("admin/user/del")}
+<button data-action='{:url("del")}' data-rule="id#{key}" data-csrf="{:systoken('course/record/del')}" data-confirm="确定要删除这些选课记录吗？" class='layui-btn layui-btn-sm layui-btn-primary'>删除选课记录</button>
+{/if}
+
+{/block}
+
+{block name="content"}
+<table class="layui-table" lay-skin="line">
+    <caption class="margin-bottom-10 text-left">{include file='record/index_search'}</caption>
+    {notempty name='list'}
+    <thead>
+    <tr>
+        <th class='list-table-check-td think-checkbox'>
+            <input data-auto-none data-check-target='.list-check-box' type='checkbox'>
+        </th>
+        <th class='text-left nowrap' style="width:120px">选课记录ID</th>
+        <th class='text-left nowrap' style="width:120px">课程名称</th>
+        <th class='text-left nowrap' style="width:120px">课程性质</th>
+        <th class='text-left nowrap' style="width:120px">学生学院</th>
+        <th class='text-left nowrap' style="width:120px">学生ID</th>
+        <th class='text-left nowrap' style="width:120px">学生姓名</th>
+        <th class='text-left nowrap' style="width:120px">学生学号</th>
+        <th class='text-left nowrap' style="width:120px">教学老师</th>
+        <th class='text-left nowrap' style="width:120px">学分</th>
+        <th class='text-left nowrap' style="width:150px">创建时间</th>
+        <th class='text-left nowrap'></th>
+    </tr>
+    </thead>
+    {/notempty}
+    <tbody>
+    {foreach $list as $key=>$vo}
+    <tr data-dbclick>
+        <td class='list-table-check-td think-checkbox'><input class="list-check-box" value='{$vo.id}' type='checkbox'></td>
+        <td class='text-left nowrap'>
+            {$vo.id|default=''}
+        </td>
+        <td class='text-left nowrap'>
+            {$courseData[$vo['course_id']]['name']}
+        </td>
+        <td class='text-left nowrap'>
+            {$collegeTypeData[$courseData[$vo['course_id']]['course_type']]}
+        </td>
+        <td class='text-left nowrap'>
+            {$collegeData[$courseData[$vo['course_id']]['college_id']]}
+        </td>
+        <td class='text-left nowrap'>
+            {$studentData[$vo['student_id']]['id']}
+        </td>
+        <td class='text-left nowrap'>
+            {$studentData[$vo['student_id']]['name']}
+        </td>
+        <td class='text-left nowrap'>
+            {$studentData[$vo['student_id']]['student_number']}
+        </td>
+        <td class='text-left nowrap'>
+            {$teacherData[$courseData[$vo['course_id']]['teacher_id']]}
+        </td>
+        <td class='text-left nowrap'>
+            {$courseData[$vo['course_id']]['credits']}
+        </td>
+        <td class='text-left nowrap'>
+            {if auth("admin/user/edit")}
+            <a data-dbclick class="layui-btn layui-btn-sm" data-title="编辑选课记录" data-modal='{:url("edit")}?id={$vo.id}'>编 辑</a>
+            {/if}
+
+            {if auth("admin/user/del")}
+            <a class="layui-btn layui-btn-sm layui-btn-danger" data-confirm="确定要删除该选课记录吗？" data-action="{:url('del')}" data-value="id#{$vo.id}" data-csrf="{:systoken('course/record/del')}">删 除</a>
+            {/if}
+        </td>
+    </tr>
+    {/foreach}
+    </tbody>
+</table>
+
+{empty name='list'}<span class="notdata">没有记录哦</span>{else}{$pagehtml|raw|default=''}{/empty}
+
+{/block}

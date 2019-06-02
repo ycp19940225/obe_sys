@@ -1,0 +1,87 @@
+<form class="layui-form layui-card" action="{:request()->url()}" data-auto="true" method="post" autocomplete="on">
+    <div class="layui-card-body">
+        <div class="layui-form-item">
+            <label class="layui-form-label">所属学院</label>
+            <div class="layui-input-block">
+                <select class="layui-select" name="college_id" lay-filter="college_id" id="college_id" lay-verify="">
+                    <option selected value="">请选择学院</option>
+                    {foreach $collegeData as $key => $college}
+                    {if isset($vo.college_id) and $vo.college_id eq $key}
+                    <option selected value="{$key}">{$college}</option>
+                    {else}
+                    <option value="{$key}">{$college}</option>
+                    {/if}
+                    {/foreach}
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">所属专业</label>
+            <div class="layui-input-block">
+                <select class="layui-select" name="profession_id" lay-filter="profession_id" id="profession_id" lay-verify="">
+                    <option selected value="">所属专业</option>
+                    {foreach $professionData as $key => $profession}
+                    {if isset($vo.profession_id) and $vo.profession_id eq $key}
+                    <option selected value="{$key}">{$profession}</option>
+                    {else}
+                    <option value="{$key}">{$profession}</option>
+                    {/if}
+                    {/foreach}
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">所属教学计划</label>
+            <div class="layui-input-block">
+                <select class="layui-select" name="target_id" lay-filter="target_id" id="target_id" lay-verify="">
+                    <option selected value="">请选择学院</option>
+                    {foreach $targetData as $key => $target}
+                    {if isset($vo.target_id) and $vo.target_id eq $key}
+                    <option selected value="{$key}">{$target}</option>
+                    {else}
+                    <option value="{$key}">{$target}</option>
+                    {/if}
+                    {/foreach}
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label label-required">教学目标名称</label>
+            <div class="layui-input-block">
+                <input name="name" value='{$vo.name|default=""}' placeholder="名称" class="layui-input" lay-verify="">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">添加教学点（知识点）</label>
+            <div class="layui-input-inline" id="knowledgeInput" style="width: 500px">
+                <input name="knowledgeData[]" value='{$vo.knowledgeData|default=""}' placeholder="请输入教学点名称" class="layui-input knowledgeData" id="first" lay-verify="">
+            </div>
+            <button class="layui-btn layui-btn-sm" type="button" id="add_knowledge_data">
+                <i class="layui-icon">&#xe654;</i>
+            </button>
+            <button class="layui-btn layui-btn-sm" type="button" id="delete_knowledge_data">
+                <i class="layui-icon">&#xe640;</i>
+            </button>
+        </div>
+    </div>
+    <div class="hr-line-dashed"></div>
+    <div class="layui-form-item text-center">
+        {notempty name='vo.id'}<input type='hidden' value='{$vo.id}' name='id'>{/notempty}
+        <button class="layui-btn" type='submit' lay-submit="">保存数据</button>
+        <button class="layui-btn layui-btn-danger" type='button' data-confirm="确定要取消编辑吗？" data-close>取消编辑</button>
+    </div>
+    <script>
+        window.form.render();
+        $(function () {
+            $(document).on('click','#add_knowledge_data',function(){
+                var html = ' <input name="knowledgeData[]" value="" placeholder="请输入教学点名称" class="layui-input knowledgeData" lay-verify="">';
+                $(".knowledgeData:first").after(html);
+                form.render();
+            });
+            $(document).on('click','#delete_knowledge_data',function(){
+                $(".knowledgeData:last").not($("#first")).remove();
+                form.render();
+            });
+        });
+    </script>
+</form>

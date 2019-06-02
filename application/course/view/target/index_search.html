@@ -1,0 +1,34 @@
+<fieldset>
+    <legend class="layui-bg-cyan">条件搜索</legend>
+
+    <form class="layui-form layui-form-pane form-search" action="{:request()->url()}" onsubmit="return false" method="get" autocomplete="off">
+
+        <div class="layui-form-item layui-inline">
+            <label class="layui-form-label">课程目标名称</label>
+            <div class="layui-input-inline">
+                <input name="name" value="{$Think.get.name|default=''}" placeholder="课程目标名称" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item layui-inline">
+            <label class="layui-form-label">选择课程</label>
+            <div class="layui-input-inline">
+                <select class="layui-select" name="course_id" id="course_id" lay-filter="course_id">
+                    <option selected value="">请选择课程</option>
+                    {foreach $courseData as $key => $course}
+                    {if isset($_GET['course_id']) and $_GET['course_id'] eq $key}
+                    <option selected value="{$key}">{$course}</option>
+                    {else}
+                    <option value="{$key}">{$course}</option>
+                    {/if}
+                    {/foreach}
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item layui-inline">
+            <button class="layui-btn layui-btn-primary"><i class="layui-icon">&#xe615;</i> 搜 索</button>
+        </div>
+    </form>
+
+</fieldset>
+
+<script>form.render()</script>

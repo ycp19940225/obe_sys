@@ -1,5 +1,6 @@
 <template>
 	<view>
+		<check></check>
 		<obe v-if="PageCur=='obe'"></obe>
 		<pick v-if="PageCur=='pick'"></pick>
 		<person v-if="PageCur=='person'"></person>
@@ -39,17 +40,7 @@
 			}
 		},
 		onLoad: function() {
-			uni.getStorage({
-				key: 'userInfo',
-				success: function(res) {
-					console.log(11);
-				},
-				fail: function(res) {
-					// uni.reLaunch({
-					// 	url: '/pages/login/login'
-					// });
-				}
-			});
+			
 		}
 	}
 </script>

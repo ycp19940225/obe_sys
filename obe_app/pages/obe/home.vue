@@ -25,9 +25,9 @@
 						</t-tr>
 						<t-tr font-size="12" color="#5d6f61" align="right" v-for="item in tableList" :key="item.id">
 							<t-td align="left">{{ item.name }}</t-td>
-							<t-td align="left">{{ item.age }}</t-td>
-							<t-td align="left">{{ item.age }}</t-td>
-							<t-td align="left">{{ item.hobby }}</t-td>
+							<t-td align="left">{{ item.credits }}</t-td>
+							<t-td align="left">{{ item.course_name }}</t-td>
+							<t-td align="left">{{ item.score }}</t-td>
 						</t-tr>
 					</t-table>
 				</view>
@@ -42,7 +42,7 @@
 	import tTh from '@/components/t-table/t-th.vue';
 	import tTr from '@/components/t-table/t-tr.vue';
 	import tTd from '@/components/t-table/t-td.vue';
-
+	import qs from 'qs';
 	export default {
 		name: "basics",
 		components: {
@@ -54,47 +54,8 @@
 		},
 		data() {
 			return {
-				tableList: [{
-						id: 0,
-						name: '张三',
-						age: '19',
-						hobby: '游泳'
-					},
-					{
-						id: 1,
-						name: '李四',
-						age: '21',
-						hobby: '绘画'
-					},
-					{
-						id: 2,
-						name: '王二',
-						age: '29',
-						hobby: '滑板'
-					},
-					{
-						id: 3,
-						name: '码字',
-						age: '20',
-						hobby: '蹦极'
-					}
-				],
-				pickerSingleArray: [{
-						label: '中国',
-						value: 1
-					},
-					{
-						label: '俄罗斯',
-						value: 2
-					},
-					{
-						label: '美国',
-						value: 3
-					},
-					{
-						label: '日本',
-						value: 4
-					}
+				userId: '',
+				tableList: [
 				],
 				pickerValueDefault: [0],
 				deepLength: 1,
@@ -102,91 +63,6 @@
 				pickerText: '',
 				mode: '',
 				pickerValueArray: [],
-				elements: [{
-						title: '布局',
-						name: 'layout',
-						color: 'cyan',
-						icon: 'newsfill'
-					},
-					{
-						title: '背景',
-						name: 'background',
-						color: 'blue',
-						icon: 'colorlens'
-					},
-					{
-						title: '文本',
-						name: 'text',
-						color: 'purple',
-						icon: 'font'
-					},
-					{
-						title: '图标 ',
-						name: 'icon',
-						color: 'mauve',
-						icon: 'icon'
-					},
-					{
-						title: '按钮',
-						name: 'button',
-						color: 'pink',
-						icon: 'btn'
-					},
-					{
-						title: '标签',
-						name: 'tag',
-						color: 'brown',
-						icon: 'tagfill'
-					},
-					{
-						title: '头像',
-						name: 'avatar',
-						color: 'red',
-						icon: 'myfill'
-					},
-					{
-						title: '进度条',
-						name: 'progress',
-						color: 'orange',
-						icon: 'icloading'
-					},
-					{
-						title: '边框阴影',
-						name: 'shadow',
-						color: 'olive',
-						icon: 'copy'
-					},
-
-				],
-				swiperList: [{
-					id: 0,
-					type: 'image',
-					url: 'https://ossweb-img.qq.com/images/lol/web201310/skin/big84000.jpg'
-				}, {
-					id: 1,
-					type: 'image',
-					url: 'https://ossweb-img.qq.com/images/lol/web201310/skin/big37006.jpg',
-				}, {
-					id: 2,
-					type: 'image',
-					url: 'https://ossweb-img.qq.com/images/lol/web201310/skin/big39000.jpg'
-				}, {
-					id: 3,
-					type: 'image',
-					url: 'https://ossweb-img.qq.com/images/lol/web201310/skin/big10001.jpg'
-				}, {
-					id: 4,
-					type: 'image',
-					url: 'https://ossweb-img.qq.com/images/lol/web201310/skin/big25011.jpg'
-				}, {
-					id: 5,
-					type: 'image',
-					url: 'https://ossweb-img.qq.com/images/lol/web201310/skin/big21016.jpg'
-				}, {
-					id: 6,
-					type: 'image',
-					url: 'https://ossweb-img.qq.com/images/lol/web201310/skin/big99008.jpg'
-				}],
 			}
 		},
 		methods: {
@@ -202,7 +78,46 @@
 				console.log(e)
 			},
 			onConfirm(e) {
-				this.pickerText = JSON.stringify(e)
+				var _this = this;
+				let userInfo;
+				_this.pickerText = e.label
+				uni.getStorage({
+					key: 'userInfo',
+					success: function(res) {
+						let userData = JSON.parse(res.data);
+						_this.userId = userData.id
+					},
+				});
+				var data = {
+					'year':_this.pickerText,
+					'studentId': _this.userId
+				}
+				uni.request({
+					url: 'http://www.obe_sys.com/api/index/getPerformance',
+					header: {
+						'content-type': 'application/x-www-form-urlencoded',
+					},
+					method: 'POST',
+					data:data,
+					dataType: 'json',
+					success: (res) => {
+						console.log(res)
+						if (res.data.code != 1) {
+							uni.showToast({
+								title: res.data.info,
+								icon: 'none'
+							});
+						} else {
+							console.log(res)
+							var data = res.data.data
+							var tempArray = new Array();
+							for (let i in data) {
+								tempArray.push(data[i])
+							}
+							_this.tableList = tempArray;
+						}
+					}
+				});
 			}
 		},
 		onBackPress() {
@@ -223,8 +138,31 @@
 				this.$refs.mpvueCityPicker.pickerCancel()
 			}
 		},
-		onLoad: function() {
-
+		mounted: function() {
+			var _this = this;
+			uni.request({
+				url: 'http://www.obe_sys.com/api/index/getSchoolYear',
+				header: {
+					'content-type': 'application/x-www-form-urlencoded',
+				},
+				method: 'GET',
+				dataType: 'json',
+				success: (res) => {
+					if (res.data.code != 1) {
+						uni.showToast({
+							title: res.data.info,
+							icon: 'none'
+						});
+					} else {
+						var data = res.data.data
+						var tempArray = new Array();
+						for (let i in data) {
+							tempArray.push(data[i])
+						}
+						_this.pickerSingleArray = tempArray;
+					}
+				}
+			});
 		}
 	}
 </script>
