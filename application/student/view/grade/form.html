@@ -1,16 +1,9 @@
 <form class="layui-form layui-card" action="{:request()->url()}" data-auto="true" method="post" autocomplete="off">
     <div class="layui-card-body">
         <div class="layui-form-item">
-            <label class="layui-form-label label-required">班级名称</label>
-            <div class="layui-input-block">
-                <input name="name" value='{$vo.name|default=""}' placeholder="班级名称" class="layui-input">
-                <!--{/if}-->
-            </div>
-        </div>
-        <div class="layui-form-item">
             <label class="layui-form-label">所属学院</label>
             <div class="layui-input-block">
-                <select class="layui-select" name="college_id">
+                <select class="layui-select" name="college_id" required lay-verify="">
                     {foreach $collegeData as $collegeId => $college}
                     {if isset($vo.college_id) and $vo.college_id eq $collegeId}
                     <option selected value="{$collegeId}">{$college}</option>
@@ -19,6 +12,13 @@
                     {/if}
                     {/foreach}
                 </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label label-required">班级名称</label>
+            <div class="layui-input-block">
+                <input name="name" value='{$vo.name|default=""}' required placeholder="班级名称" class="layui-input">
+                <!--{/if}-->
             </div>
         </div>
     </div>

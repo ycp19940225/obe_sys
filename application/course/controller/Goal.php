@@ -44,6 +44,11 @@ class Goal extends Controller
     public function edit()
     {
         $this->applyCsrfToken();
+        if($this->request->request('id')){
+           $goalId = $this->request->request('id');
+           $knowledgeData = db('obe_knowledge')->where(['is_deleted' => 0 ,'goal_id' => $goalId])->select();
+           $this->assign('knowledgeData',$knowledgeData);
+        }
         $this->_form($this->table, 'form');
     }
 
@@ -66,13 +71,18 @@ class Goal extends Controller
     }
     public function _form_result($goalId, $data)
     {
+        if(!empty($data['id'])){
+            db('obe_knowledge')->where(['goal_id' => $goalId])->delete();
+        }
         foreach ($data['knowledgeData'] as $key => $knowledge) {
-            $insertData = [
-                'name' => $knowledge,
-                'goal_id' => $goalId,
-                'create_at' => date('Y-m-d H:i:s')
-            ];
-            db('obe_knowledge')->insert($insertData);
+            if(!empty($knowledge)){
+                $insertData = [
+                    'name' => $knowledge,
+                    'goal_id' => $goalId,
+                    'create_at' => date('Y-m-d H:i:s')
+                ];
+                db('obe_knowledge')->insert($insertData);
+            }
         }
     }
 

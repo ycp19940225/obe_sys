@@ -3,7 +3,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label">所属学院</label>
             <div class="layui-input-block">
-                <select class="layui-select" name="college_id">
+                <select class="layui-select" name="college_id" required>
                     {foreach $collegeData as $key => $college}
                     {if isset($vo.college_id) and $vo.college_id eq $key}
                     <option selected value="{$key}">{$college}</option>
@@ -17,7 +17,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label">所属班级</label>
             <div class="layui-input-block">
-                <select class="layui-select" name="grade_id">
+                <select class="layui-select" name="grade_id" required>
                     {foreach $gradeData as $key => $grade}
                     {if isset($vo.grade_id) and $vo.grade_id eq $key}
                     <option selected value="{$key}">{$grade}</option>
@@ -31,14 +31,14 @@
         <div class="layui-form-item">
             <label class="layui-form-label label-required">学生名称</label>
             <div class="layui-input-block">
-                <input name="name" value='{$vo.name|default=""}' placeholder="学生名称" class="layui-input">
+                <input name="name" value='{$vo.name|default=""}' required placeholder="学生名称" class="layui-input">
                 <!--{/if}-->
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">年龄</label>
             <div class="layui-input-block">
-                <input name="age" value='{$vo.age|default=""}' placeholder="请输入年龄" class="layui-input">
+                <input name="age" value='{$vo.age|default=""}' placeholder="请输入年龄" required class="layui-input">
             </div>
         </div>
         <!--<div class="layui-form-item">-->
@@ -62,25 +62,25 @@
         <div class="layui-form-item">
             <label class="layui-form-label">手机号</label>
             <div class="layui-input-block">
-                <input  maxlength="11" autocomplete="off" autofocus name="phone" value='{$vo.phone|default=""}'  placeholder="手机号" class="layui-input">
+                <input  maxlength="11" autocomplete="off" required autofocus name="phone" value='{$vo.phone|default=""}'  placeholder="请输入正确手机号" class="layui-input" pattern="^1[3-9][0-9]{9}$">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">学号</label>
             <div class="layui-input-block">
-                <input   autocomplete="off" autofocus name="student_number" value='{$vo.student_number|default=""}'  placeholder="学号" class="layui-input">
+                <input   autocomplete="off" autofocus name="student_number" required value='{$vo.student_number|default=""}'  placeholder="学号" class="layui-input">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">身份证号码</label>
             <div class="layui-input-block">
-                <input  autocomplete="off" autofocus name="id_number" value='{$vo.id_number|default=""}'  placeholder="" class="layui-input">
+                <input  autocomplete="off" autofocus name="id_number" required value='{$vo.id_number|default=""}'  placeholder="身份证号码" class="layui-input" lay-verify="identity">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">性别</label>
             <div class="layui-input-block">
-                <select class="layui-select" name="sex">
+                <select class="layui-select" name="sex" required>
                     {foreach $sexData as $key => $sex}
                     {if isset($vo.sex) and $vo.sex eq $key}
                     <option selected value="{$key}">{$sex}</option>

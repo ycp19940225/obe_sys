@@ -7,7 +7,7 @@
 {/if}
 
 {if auth("admin/user/del")}
-<button data-action='{:url("del")}' data-rule="id#{key}" data-csrf="{:systoken('course/profession/del')}" data-confirm="确定要删除这些教学目标吗？" class='layui-btn layui-btn-sm layui-btn-primary'>删除教学目标</button>
+<button data-action='{:url("del")}' data-rule="id#{key}" data-csrf="{:systoken('course/goal/del')}" data-confirm="确定要删除这些教学目标吗？" class='layui-btn layui-btn-sm layui-btn-primary'>删除教学目标</button>
 {/if}
 
 {/block}
@@ -44,7 +44,7 @@
             {/if}
 
             {if auth("admin/user/del")}
-            <a class="layui-btn layui-btn-sm layui-btn-danger" data-confirm="确定要删除该教学目标吗？" data-action="{:url('del')}" data-value="id#{$vo.id}" data-csrf="{:systoken('course/profession/del')}">删 除</a>
+            <a class="layui-btn layui-btn-sm layui-btn-danger" data-confirm="确定要删除该教学目标吗？" data-action="{:url('del')}" data-value="id#{$vo.id}" data-csrf="{:systoken('course/goal/del')}">删 除</a>
             {/if}
         </td>
     </tr>

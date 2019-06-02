@@ -54,7 +54,13 @@
         <div class="layui-form-item">
             <label class="layui-form-label">添加教学点（知识点）</label>
             <div class="layui-input-inline" id="knowledgeInput" style="width: 500px">
-                <input name="knowledgeData[]" value='{$vo.knowledgeData|default=""}' placeholder="请输入教学点名称" class="layui-input knowledgeData" id="first" lay-verify="">
+                {if condition="!empty($knowledgeData)"}
+                {volist name="knowledgeData" id="item"}
+                <input name="knowledgeData[]" value='{$item.name|default=""}' placeholder="请输入教学点名称" class="layui-input knowledgeData" id="first" lay-verify="">
+                {/volist}
+                {else /}
+                <input name="knowledgeData[]" value='' placeholder="请输入教学点名称" class="layui-input knowledgeData" id="first" lay-verify="">
+                {/if}
             </div>
             <button class="layui-btn layui-btn-sm" type="button" id="add_knowledge_data">
                 <i class="layui-icon">&#xe654;</i>
@@ -75,7 +81,7 @@
         $(function () {
             $(document).on('click','#add_knowledge_data',function(){
                 var html = ' <input name="knowledgeData[]" value="" placeholder="请输入教学点名称" class="layui-input knowledgeData" lay-verify="">';
-                $(".knowledgeData:first").after(html);
+                $(".knowledgeData:last").after(html);
                 form.render();
             });
             $(document).on('click','#delete_knowledge_data',function(){

@@ -28,6 +28,7 @@ class Index extends Controller
         $this->collegeTypeData = ['1' => '公共必修', '2' => '学科必修', '4' => '学科选修', '5' => '专业必修', '3' => '专业选修', '6' => '实践选修'];
         $this->collegeData = db('obe_college')->where(['is_deleted' => '0'])->column('id, name', 'id');
         $this->teacherData = db('obe_teacher')->where(['is_deleted' => '0'])->column('id, name', 'id');
+        $this->goalData = db('obe_goal')->where(['is_deleted' => '0'])->column('id, name', 'id');
     }
 
     public function index()
@@ -47,6 +48,20 @@ class Index extends Controller
     public function edit()
     {
         $this->applyCsrfToken();
+        if($this->request->request('id')){
+            $courseId = $this->request->request('id');
+            $knowledgeIds = db('obe_course_knowledge')->where(['is_deleted' => 0 ,'course_id' => $courseId])->column('knowledge_id','knowledge_id');
+            $goalId = db('obe_course')->where(['id' => $courseId])->value('goal_id');
+            $knowledgeData = db('obe_knowledge')->where(['is_deleted' => 0 ,'goal_id' => $goalId])->column('id ,name, is_deleted', 'id');
+            foreach ($knowledgeData as $key => $knowledgeDatum) {
+                if(in_array($key, $knowledgeIds)){
+                    $knowledgeData[$key]['checked'] = 'checked';
+                }else{
+                    $knowledgeData[$key]['checked'] = '';
+                }
+            }
+            $this->assign('knowledgeData',$knowledgeData);
+        }
         $this->_form($this->table, 'form');
     }
 
@@ -67,6 +82,31 @@ class Index extends Controller
                 $data['code'] = 'c_'. $data['college_id'] .'_t_' . $data['teacher_id'] . '_course_'.Data::uniqidNumberCode();
             }
             $data['create_at'] = date('Y-m-d H:i:s');
+        }
+    }
+
+    //获取知识点
+    public function getKnowledgeByGoalId()
+    {
+        $data = db('obe_knowledge')->where(['goal_id' => $this->request->request('goal_id')])->column('id, name', 'id');
+        $this->success('',$data);
+    }
+
+    public function _form_result($courseId, $data)
+    {
+        if(!empty($data['id'])){
+            db('obe_course_knowledge')->where(['course_id' => $courseId])->delete();
+        }
+        foreach ($data['knowledgeData'] as $key => $knowledge) {
+            if(!empty($knowledge)){
+                $insertData = [
+                    'course_id' => $courseId,
+                    'goal_id' => $data['goal_id'],
+                    'knowledge_id' => $knowledge,
+                    'create_at' => date('Y-m-d H:i:s')
+                ];
+                db('obe_course_knowledge')->insert($insertData);
+            }
         }
     }
 

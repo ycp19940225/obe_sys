@@ -1,6 +1,87 @@
 <form class="layui-form layui-card" action="{:request()->url()}" data-auto="true" method="post" autocomplete="off">
     <div class="layui-card-body">
         <div class="layui-form-item">
+            <label class="layui-form-label">所属学院</label>
+            <div class="layui-input-block">
+                <select class="layui-select" name="college_id">
+                    {foreach $collegeData as $key => $college}
+                    {if isset($vo.college_id) and $vo.college_id eq $key}
+                    <option selected value="{$key}">{$college}</option>
+                    {else}
+                    <option value="{$key}">{$college}</option>
+                    {/if}
+                    {/foreach}
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">课程性质</label>
+            <div class="layui-input-block">
+                <select class="layui-select" name="course_type">
+                    {foreach $collegeTypeData as $key => $type}
+                    {if isset($vo.course_type) and $vo.course_type eq $key}
+                    <option selected value="{$key}">{$type}</option>
+                    {else}
+                    <option value="{$key}">{$type}</option>
+                    {/if}
+                    {/foreach}
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">教学目标</label>
+            <div class="layui-input-block">
+                <select class="layui-select" name="goal_id" lay-filter="goal_id">
+                    <option selected value="">请选择教学目标</option>
+                    {foreach $goalData as $key => $goal}
+                    {if isset($vo.goal_id) and $vo.goal_id eq $key}
+                    <option selected value="{$key}">{$goal}</option>
+                    {else}
+                    <option value="{$key}">{$goal}</option>
+                    {/if}
+                    {/foreach}
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">教学点</label>
+            <div class="layui-input-block" id="knowledgeData">
+                {if condition="!empty($knowledgeData)"}
+                {volist name="knowledgeData" id="item"}
+                <input type="checkbox" name="knowledgeData[]" value="{$item.id}" title="{$item.name}" {$item.checked}>
+                {/volist}
+                {/if}
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">考核方式</label>
+            <div class="layui-input-block">
+                <select class="layui-select" name="evaluation_mode">
+                    {foreach $evaluationData as $key => $evaluation}
+                    {if isset($vo.evaluation_mode) and $vo.evaluation_mode eq $key}
+                    <option selected value="{$key}">{$evaluation}</option>
+                    {else}
+                    <option value="{$key}">{$evaluation}</option>
+                    {/if}
+                    {/foreach}
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">教学老师</label>
+            <div class="layui-input-block">
+                <select class="layui-select" name="teacher_id">
+                    {foreach $teacherData as $key => $teacher}
+                    {if isset($vo.teacher_id) and $vo.teacher_id eq $key}
+                    <option selected value="{$key}">{$teacher}</option>
+                    {else}
+                    <option value="{$key}">{$teacher}</option>
+                    {/if}
+                    {/foreach}
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
             <label class="layui-form-label label-required">课程名称</label>
             <div class="layui-input-block">
                 <input name="name" value='{$vo.name|default=""}' placeholder="课程名称" class="layui-input">
@@ -55,62 +136,6 @@
                 <input name="count" value='{$vo.count|default=""}' placeholder="请输入周学时" class="layui-input">
             </div>
         </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">教学老师</label>
-            <div class="layui-input-block">
-                <select class="layui-select" name="teacher_id">
-                    {foreach $teacherData as $key => $teacher}
-                    {if isset($vo.teacher_id) and $vo.teacher_id eq $key}
-                    <option selected value="{$key}">{$teacher}</option>
-                    {else}
-                    <option value="{$key}">{$teacher}</option>
-                    {/if}
-                    {/foreach}
-                </select>
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">考核方式</label>
-            <div class="layui-input-block">
-                <select class="layui-select" name="evaluation_mode">
-                    {foreach $evaluationData as $key => $evaluation}
-                    {if isset($vo.evaluation_mode) and $vo.evaluation_mode eq $key}
-                    <option selected value="{$key}">{$evaluation}</option>
-                    {else}
-                    <option value="{$key}">{$evaluation}</option>
-                    {/if}
-                    {/foreach}
-                </select>
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">所属学院</label>
-            <div class="layui-input-block">
-                <select class="layui-select" name="college_id">
-                    {foreach $collegeData as $key => $college}
-                    {if isset($vo.college_id) and $vo.college_id eq $key}
-                    <option selected value="{$key}">{$college}</option>
-                    {else}
-                    <option value="{$key}">{$college}</option>
-                    {/if}
-                    {/foreach}
-                </select>
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">课程性质</label>
-            <div class="layui-input-block">
-                <select class="layui-select" name="course_type">
-                    {foreach $collegeTypeData as $key => $type}
-                    {if isset($vo.course_type) and $vo.course_type eq $key}
-                    <option selected value="{$key}">{$type}</option>
-                    {else}
-                    <option value="{$key}">{$type}</option>
-                    {/if}
-                    {/foreach}
-                </select>
-            </div>
-        </div>
     </div>
     <div class="hr-line-dashed"></div>
     <div class="layui-form-item text-center">
@@ -120,5 +145,27 @@
     </div>
     <script>
         window.form.render();
+        form.on('select(goal_id)', function(data){
+            var goal_id = data.value;
+            var data = {
+                'goal_id': goal_id
+            };
+            $.post('{:url("getKnowledgeByGoalId")}',data, function (res) {
+                if(res){
+                    $("#knowledgeData").empty();
+                    var data = res['data'];
+                    var html = '';
+//                    $("#grade_id").empty();
+//                    $.each(res['data'], function (index, item) {
+//                        $('#grade_id').append(new Option(item, index));// 下拉菜单里添加元素
+//                    });
+                   for(var i in data){
+                       html = '<input type="checkbox" name="knowledgeData[]" value="'+i+'" title="'+data[i]+'">';
+                       $("#knowledgeData").append(html);
+                   }
+                    form.render();
+                }
+            });
+        });
     </script>
 </form>

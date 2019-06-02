@@ -21,10 +21,10 @@
         <th class='list-table-check-td think-checkbox'>
             <input data-auto-none data-check-target='.list-check-box' type='checkbox'>
         </th>
-        <th class='text-left nowrap' style="width:120px">班级名</th>
-        <th class='text-left nowrap' style="width:120px">班级代码</th>
-        <th class='text-left nowrap' style="width:150px">所属学院</th>
-        <th class='text-left nowrap' style="width:150px">创建时间</th>
+        <th class='text-left nowrap' style="width:300px">班级名</th>
+        <th class='text-left nowrap' style="width:300px">班级代码</th>
+        <th class='text-left nowrap' style="width:300px">所属学院</th>
+        <th class='text-left nowrap' style="width:200px">创建时间</th>
         <th class='text-left nowrap'></th>
     </tr>
     </thead>
@@ -40,6 +40,7 @@
             {$vo.code|default=0}
         </td>
         <td class='text-left nowrap'>{$vo.create_at|default=''}</td>
+        <td class='text-left nowrap'>{$collegeData[$vo['college_id']]}</td>
         <td class='text-left nowrap'>
             {if auth("student/user/edit")}
             <a data-dbclick class="layui-btn layui-btn-sm" data-title="编辑用户" data-modal='{:url("edit")}?id={$vo.id}'>编 辑</a>
