@@ -34,7 +34,7 @@
             <label class="layui-form-label">所属教学计划</label>
             <div class="layui-input-block">
                 <select class="layui-select" name="target_id" lay-filter="target_id" id="target_id" lay-verify="">
-                    <option selected value="">请选择学院</option>
+                    <option selected value="">请选择教学计划</option>
                     {foreach $targetData as $key => $target}
                     {if isset($vo.target_id) and $vo.target_id eq $key}
                     <option selected value="{$key}">{$target}</option>

@@ -29,6 +29,7 @@ class Analysis extends Controller
         $this->collegeData = db('obe_college')->where(['is_deleted' => '0'])->column('id, name', 'id');
         $this->teacherData = db('obe_teacher')->where(['is_deleted' => '0'])->column('id, name', 'id');
         $this->gradeData = db('obe_grade')->where(['is_deleted' => '0'])->column('id, name', 'id');
+        $this->courseData = db('obe_course')->where(['is_deleted' => '0'])->column('id, name', 'id');
     }
 
     public function index()
@@ -37,15 +38,29 @@ class Analysis extends Controller
         $requestData = $this->request->request();
         $where = [];
         foreach ($requestData as $key => $requestDatum){
-            if ($key == 'grade_id'){
+            if ($key == 'grade_id' && !empty($requestDatum)){
                 $where['grade_id'] = $requestDatum;
+            }
+            if ($key == 'course_id' && !empty($requestDatum)){
+                $where['course_id'] = $requestDatum;
             }
         }
         if(!empty($where)){
-            $recordData = db(obe_performance_knowledge_record)->where(['grade_id' => 2])->select();
-            var_dump($recordData);exit;
+            $recordData = db('obe_performance_knowledge_record')->where($where)->paginate(10);
+            foreach ($recordData as $key => $datum){
+
+            }
+        }else{
+            $where['is_deleted'] = 0;
+            $recordData = db('obe_performance_knowledge_record')->where($where)->paginate(10);
         }
-        $this->assign('collegeTypeData', $this->collegeTypeData);
+        $knowledgeIds = array_column($recordData->toArray()['data'], 'knowledge_id');
+        $studentIds = array_column($recordData->toArray()['data'], 'student_id');
+        $knowledgeData = db('obe_knowledge')->where(['is_deleted' => 0])->where('id', 'in', $knowledgeIds)->column('id, name, goal_id','id');
+        $studentData = db('obe_student')->where(['is_deleted' => 0])->where('id', 'in', $studentIds)->column('id, name, is_deleted','id');
+        $this->assign('studentData', $studentData);
+        $this->assign('knowledgeData', $knowledgeData);
+        $this->assign('recordData', isset($recordData) ? $recordData:[]);
         $this->fetch();
     }
 

@@ -37,7 +37,7 @@ class Target extends Controller
         $this->title = '课程目标列表';
         $where = ['is_deleted' => '0'];
 //        var_dump($this->request->request());
-        $this->_query($this->table)->like('name')->equal('course_id')->where($where)->page();
+        $this->_query($this->table)->like('name')->equal('profession_id')->where($where)->page();
     }
 
     public function add()

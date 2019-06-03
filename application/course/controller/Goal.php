@@ -32,7 +32,7 @@ class Goal extends Controller
     {
         $this->title = '教学目标列表';
         $where = ['is_deleted' => '0'];
-        $this->_query($this->table)->like('name')->equal('code')->where($where)->page();
+        $this->_query($this->table)->like('name')->equal('college_id')->where($where)->page();
     }
 
     public function add()
