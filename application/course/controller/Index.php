@@ -48,7 +48,7 @@ class Index extends Controller
     public function edit()
     {
         $this->applyCsrfToken();
-        if($this->request->request('id')){
+        if($this->request->request('id') && $this->request->isGet()){
             $courseId = $this->request->request('id');
             $knowledgeIds = db('obe_course_knowledge')->where(['is_deleted' => 0 ,'course_id' => $courseId])->column('knowledge_id','knowledge_id');
             $goalId = db('obe_course')->where(['id' => $courseId])->value('goal_id');

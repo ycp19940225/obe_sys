@@ -3,7 +3,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label">所属学院</label>
             <div class="layui-input-block">
-                <select class="layui-select" name="college_id" lay-filter="college_id" id="college_id">
+                <select class="layui-select" name="college_id" lay-filter="college_id" id="college_id" required>
                     <option selected value="">请选择学院</option>
                     {foreach $collegeData as $key => $college}
                     {if isset($vo.college_id) and $vo.college_id eq $key}
@@ -18,23 +18,29 @@
         <div class="layui-form-item">
             <label class="layui-form-label">所属班级</label>
             <div class="layui-input-block">
-                <select class="layui-select" name="grade_id" id="grade_id" lay-filter="grade_id">
+                <select class="layui-select" name="grade_id" id="grade_id" lay-filter="grade_id" required>
                     <option selected value="">请选择班级</option>
+                    {foreach $gradeData as $gradeKey => $grade}
+                    <option value="{$gradeKey}" <?php if(isset($gradeId) && $gradeKey==$gradeId) echo 'selected';?>>{$grade}</option>
+                    {/foreach}
                 </select>
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">选择学生</label>
             <div class="layui-input-block">
-                <select class="layui-select" name="student_id" id="student_id" lay-filter="student_id">
+                <select class="layui-select" name="student_id" id="student_id" lay-filter="student_id" required>
                     <option selected value="">请选择学生</option>
+                    {foreach $studentData as $studentKey => $student}
+                    <option value="{$student['id']}" <?php if(isset($studentId) && $student['id']==$studentId) echo 'selected';?>>{$student['name']}</option>
+                    {/foreach}
                 </select>
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">选择课程</label>
             <div class="layui-input-block">
-                <select class="layui-select" name="course_id" id="course_id" lay-filter="course_id">
+                <select class="layui-select" name="course_id" id="course_id" lay-filter="course_id" required>
                     <option selected value="">请选择课程</option>
                     {foreach $courseData as $key => $course}
                     {if isset($vo.course_id) and $vo.course_id eq $key}
@@ -46,10 +52,28 @@
                 </select>
             </div>
         </div>
+        <div class="layui-form-item layui-inline">
+            <label class="layui-form-label">知识点分数</label>
+            <div class="layui-input-block" id="knowledgeList">
+                <!--<div>-->
+                    <!--<label class="layui-form-label">知识点分数</label>-->
+                    <!--<input name="score" value='' placeholder="知识点分数" class="layui-input" style="width:200px">-->
+                <!--</div>-->
+                {if condition="!empty($editKnowledgeData)"}
+                   {volist name="editKnowledgeData" id="editKnowledge"}
+                        <div>
+                            <label class="layui-form-label">{$editKnowledge['name']}</label>
+                            <input name="knowledgeData[{$editKnowledge['id']}]" value="{$editKnowledge['score']}" placeholder="{$editKnowledge['name']}" class="layui-input" style="width:200px" required>
+                        </div>
+                    {/volist}
+                {/if}
+            </div>
+
+        </div>
         <div class="layui-form-item">
-            <label class="layui-form-label label-required">成绩</label>
+            <label class="layui-form-label label-required">总成绩</label>
             <div class="layui-input-block">
-                <input name="score" value='{$vo.score|default=""}' placeholder="成绩" class="layui-input">
+                <input name="score" value='{$vo.score|default=""}' placeholder="成绩" class="layui-input" required>
                 <!--{/if}-->
             </div>
         </div>
@@ -94,6 +118,26 @@
                         $("#student_id").empty();
                         $.each(res['data'], function (index, item) {
                             $('#student_id').append(new Option(item, index));// 下拉菜单里添加元素
+                        });
+                        form.render('select');
+                    }
+                });
+            });
+            form.on('select(course_id)', function(data){
+                var course_id = data.value;
+                var data = {
+                    'course_id': course_id
+                };
+                $.post('{:url("getKnowledgeByCourseId")}',data, function (res) {
+                    if(res){
+                        var data = res['data'],html;
+                        $('#knowledgeList').empty();
+                        $.each(data, function (index, item) {
+                            html = '<div>\n' +
+                                '                    <label class="layui-form-label">'+item+'</label>\n' +
+                                '                    <input name="knowledgeData['+index+']" value="" placeholder="请输入'+item+'分数" class="layui-input" style="width:200px" required>\n' +
+                                '                </div>';
+                            $('#knowledgeList').append(html);// 下拉菜单里添加元素
                         });
                         form.render('select');
                     }

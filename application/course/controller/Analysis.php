@@ -34,6 +34,17 @@ class Analysis extends Controller
     public function index()
     {
         $this->title = '目标达成统计';
+        $requestData = $this->request->request();
+        $where = [];
+        foreach ($requestData as $key => $requestDatum){
+            if ($key == 'grade_id'){
+                $where['grade_id'] = $requestDatum;
+            }
+        }
+        if(!empty($where)){
+            $recordData = db(obe_performance_knowledge_record)->where(['grade_id' => 2])->select();
+            var_dump($recordData);exit;
+        }
         $this->assign('collegeTypeData', $this->collegeTypeData);
         $this->fetch();
     }

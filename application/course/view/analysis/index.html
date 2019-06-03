@@ -13,55 +13,60 @@
 {/block}
 {extend name='admin@main'}
 {block name='content'}
-<table class="layui-table" lay-even lay-skin="line">
+<table class="layui-table">
     <caption class="margin-bottom-10 text-left">{include file='analysis/index_search'}</caption>
-    <colgroup>
-        <col width="20%">
-        <col width="30%">
-        <col width="20%">
-        <col width="30%">
-    </colgroup>
     <thead>
     <tr>
-        <th class="text-left" colspan="2">目标达成分析</th>
+        <th>班级名</th>
+        <th>人数</th>
+        <th></th>
     </tr>
     </thead>
     <tbody>
-    <!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
+    <tr>
+        <td>贤心</td>
+        <td>2016-11-29</td>
+        <td>人生就像是一场修行</td>
+    </tr>
+    <tr>
+        <td>许闲心</td>
+        <td>2016-11-28</td>
+        <td>于千万人之中遇见你所遇见的人，于千万年之中，时间的无涯的荒野里…</td>
+    </tr>
     </tbody>
 </table>
-<div class="analysis">
-    <div class="analysis_main" id="main" style=""></div>
-</div>
+<!--<div class="analysis">-->
+    <!--<div class="analysis_main" id="main" style=""></div>-->
+<!--</div>-->
 {/block}
 {block name='script'}
 <script>
-   $(function () {
-       // 基于准备好的dom，初始化echarts实例
-       var myChart = echarts.init(document.getElementById('main'));
-
-       // 指定图表的配置项和数据
-       var option = {
-           title: {
-               text: '目标达成分析'
-           },
-           tooltip: {},
-           legend: {
-               data:['成绩']
-           },
-           xAxis: {
-               data: ["成绩","成绩","成绩","成绩","成绩","成绩"]
-           },
-           yAxis: {},
-           series: [{
-               name: '成绩',
-               type: 'bar',
-               data: [5, 20, 36, 10, 10, 20]
-           }]
-       };
-
-       // 使用刚指定的配置项和数据显示图表。
-       myChart.setOption(option);
-   })
+   // $(function () {
+   //     // 基于准备好的dom，初始化echarts实例
+   //     var myChart = echarts.init(document.getElementById('main'));
+   //
+   //     // 指定图表的配置项和数据
+   //     var option = {
+   //         title: {
+   //             text: '目标达成分析'
+   //         },
+   //         tooltip: {},
+   //         legend: {
+   //             data:['成绩']
+   //         },
+   //         xAxis: {
+   //             data: ["成绩","成绩","成绩","成绩","成绩","成绩"]
+   //         },
+   //         yAxis: {},
+   //         series: [{
+   //             name: '成绩',
+   //             type: 'bar',
+   //             data: [5, 20, 36, 10, 10, 20]
+   //         }]
+   //     };
+   //
+   //     // 使用刚指定的配置项和数据显示图表。
+   //     myChart.setOption(option);
+   // })
 </script>
 {/block}

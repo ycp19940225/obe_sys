@@ -1,8 +1,21 @@
 <fieldset>
-    <legend class="layui-bg-cyan">条件搜索</legend>
-
-    <form class="layui-form layui-form-pane form-search" action="{:request()->url()}" onsubmit="return false" method="get" autocomplete="off">
-
+    <legend class="layui-bg-cyan">按条件统计</legend>
+   <form class="layui-form layui-form-pane form-search" action="{:request()->url()}" onsubmit="return false" method="get" autocomplete="off">
+        <div class="layui-form-item layui-inline">
+            <label class="layui-form-label">所属班级</label>
+            <div class="layui-input-inline">
+                <select class="layui-select" name="grade_id">
+                    <option value="">全部</option>
+                    {foreach $gradeData as $key => $grade}
+                    {if isset($_GET['grade_id']) and $_GET['grade_id'] eq $key}
+                    <option selected value="{$key}">{$grade}</option>
+                    {else}
+                    <option value="{$key}">{$grade}</option>
+                    {/if}
+                    {/foreach}
+                </select>
+            </div>
+        </div>
         <div class="layui-form-item layui-inline">
             <label class="layui-form-label">课程名称</label>
             <div class="layui-input-inline">

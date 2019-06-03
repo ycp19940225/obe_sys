@@ -14,6 +14,7 @@ use library\Controller;
 use library\tools\Data;
 use think\Db;
 
+//成绩中心
 class Performance extends Controller
 {
     protected $table = 'obe_performance';
@@ -49,6 +50,19 @@ class Performance extends Controller
     public function edit()
     {
         $this->applyCsrfToken();
+        if($this->request->request('id') && $this->request->isGet()){
+            $performanceId = $this->request->request('id');
+            $performanceData = db('obe_performance')->field('college_id,grade_id,student_id')->where(['is_deleted' => 0 ,'id' => $performanceId])->find();
+            $recordData = db('obe_performance_knowledge_record')->where(['performance_id' => $performanceId])->column('id, knowledge_id, score','knowledge_id');
+            $knowledgeIds = array_column($recordData, 'knowledge_id');
+            $editKnowledgeData = db('obe_knowledge')->where('id', 'in', $knowledgeIds)->column('id, name,goal_id','id');
+            foreach ($editKnowledgeData as $key => $val) {
+                $editKnowledgeData[$key]['score'] = $recordData[$val['id']]['score'];
+            }
+            $this->assign('editKnowledgeData',$editKnowledgeData);
+            $this->assign('gradeId',$performanceData['grade_id']);
+            $this->assign('studentId',$performanceData['student_id']);
+        }
         $this->_form($this->table, 'form');
     }
 
@@ -65,6 +79,7 @@ class Performance extends Controller
     {
         if ($this->request->isGet()) {
         } elseif ($this->request->isPost()) {
+            $data['knowledgeData'] = array_filter($data['knowledgeData']);
             if (empty($data['id'])) {
                 $data['code'] = 'grade_' . Data::uniqidNumberCode();
             }
@@ -74,13 +89,45 @@ class Performance extends Controller
 
     public function getGradeByCollegeId()
     {
-        $data = db('obe_grade')->where(['college_id' => $this->request->request('college_id')])->column('id, name', 'id');
+        $data = db('obe_grade')->where(['college_id' => $this->request->request('college_id'),'is_deleted' => 0])->column('id, name', 'id');
         $this->success('',$data);
     }
     public function getStudentByGradeId()
     {
-        $data = db('obe_student')->where(['grade_id' => $this->request->request('grade_id')])->column('id, name', 'id');
+        $data = db('obe_student')->where(['grade_id' => $this->request->request('grade_id'),'is_deleted' => 0])->column('id, name', 'id');
         $this->success('',$data);
+    }
+
+    public function getKnowledgeByCourseId()
+    {
+        $knowledgeIdS = db('obe_course_knowledge')->where(['course_id' => $this->request->request('course_id'),'is_deleted' => 0])->column('id, knowledge_id', 'id');
+
+        $knowledgeData = db('obe_knowledge')->where(['is_deleted' => 0])->where('id', 'in', $knowledgeIdS)->column('id, name', 'id');
+        $this->success('', $knowledgeData);
+    }
+
+    public function _form_result($pId, $data)
+    {
+        if(!empty($data['id'])){
+            db('obe_performance_knowledge_record')->where([
+                'performance_id' => $pId
+            ])->delete();
+        }
+        foreach ($data['knowledgeData'] as $key => $score) {
+            if(!empty($score)){
+                $insertData = [
+                    'score' => $score,
+                    'knowledge_id' => $key,
+                    'performance_id' => $pId,
+                    'course_id' => $data['course_id'],
+                    'college_id' => $data['college_id'],
+                    'grade_id' => $data['grade_id'],
+                    'student_id' => $data['student_id'],
+                    'create_at' => date('Y-m-d H:i:s')
+                ];
+                db('obe_performance_knowledge_record')->insert($insertData);
+            }
+        }
     }
 
 }

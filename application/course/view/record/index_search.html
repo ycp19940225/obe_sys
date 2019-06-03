@@ -3,7 +3,7 @@
     <form class="layui-form layui-form-pane form-search" action="{:request()->url()}" onsubmit="return false" method="get" autocomplete="off">
         <div class="layui-form-item layui-inline">
             <label class="layui-form-label">所属课程</label>
-            <div class="layui-input-block">
+            <div class="layui-input-inline">
                 <select class="layui-select" name="course_id" id="course_id" lay-filter="course_id">
                     <option selected value="">全部</option>
                     {foreach $courseData as $key => $course}

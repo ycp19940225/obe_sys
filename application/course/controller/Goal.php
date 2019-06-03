@@ -69,6 +69,7 @@ class Goal extends Controller
 
         }
     }
+
     public function _form_result($goalId, $data)
     {
         if(!empty($data['id'])){

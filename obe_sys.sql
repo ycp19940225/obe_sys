@@ -1,16 +1,16 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : phpstudy
+Source Server         : 127.0.0.1_3306
 Source Server Version : 50553
-Source Host           : localhost:3306
+Source Host           : 127.0.0.1:3306
 Source Database       : obe_sys
 
 Target Server Type    : MYSQL
 Target Server Version : 50553
 File Encoding         : 65001
 
-Date: 2019-06-03 00:48:09
+Date: 2019-06-03 18:12:44
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -74,10 +74,10 @@ CREATE TABLE `obe_course` (
 -- Records of obe_course
 -- ----------------------------
 INSERT INTO `obe_course` VALUES ('1', '1', '1', '1', '', '1', '1', '0', '1', '0', '1', '1', '0', '0', '1', null, null, '', '0000-00-00 00:00:00');
-INSERT INTO `obe_course` VALUES ('3', 'c_3_t_1_course_6587917180', '大学英语', '4', '2019-2020-1', '7', '1', '0', '3', '计算机', '1', '90', '0', '1', '0', '2019-05-30 01:37:45', null, '', '0000-00-00 00:00:00');
-INSERT INTO `obe_course` VALUES ('4', 'c_3_t_3_course_6587759039', '大学体育', '1', '2018-2019-1', '7', '1', '0', '3', '计算机', '1', '90', '0', '3', '0', '2019-05-30 01:37:32', null, '', '0000-00-00 00:00:00');
-INSERT INTO `obe_course` VALUES ('5', 'c_3_t_3_course_6591513396', '课程设计', '15', '2018-2019-2', '19', '2', '28', '3', '专业实习', '1', '90', '0', '3', '0', '2019-06-02 23:28:44', null, '', '0000-00-00 00:00:00');
-INSERT INTO `obe_course` VALUES ('6', 'c_3_t_1_course_6587917180', '大学英语', '4', '2019-2020-1', '7', '1', '6', '3', '计算机', '1', '90', '0', '1', '0', '2019-06-03 00:03:15', null, '', '0000-00-00 00:00:00');
+INSERT INTO `obe_course` VALUES ('3', 'c_3_t_1_course_6587917180', '大学英语', '4', '2019-2020-1', '7', '1', '6', '3', '计算机', '1', '90', '0', '1', '0', '2019-06-03 11:01:00', null, '', '0000-00-00 00:00:00');
+INSERT INTO `obe_course` VALUES ('4', 'c_3_t_3_course_6587759039', '大学体育', '1', '2018-2019-1', '7', '1', '6', '3', '计算机', '1', '90', '0', '3', '0', '2019-06-03 11:22:51', null, '', '0000-00-00 00:00:00');
+INSERT INTO `obe_course` VALUES ('5', 'c_3_t_3_course_6591513396', '课程设计', '15', '2018-2019-2', '19', '2', '28', '3', '专业实习', '1', '90', '0', '3', '0', '2019-06-03 11:22:30', null, '', '0000-00-00 00:00:00');
+INSERT INTO `obe_course` VALUES ('6', 'c_3_t_1_course_6587917180', '大学英语', '4', '2019-2020-1', '7', '1', '6', '3', '计算机', '1', '90', '0', '1', '0', '2019-06-03 11:22:39', null, '', '0000-00-00 00:00:00');
 
 -- ----------------------------
 -- Table structure for obe_course_knowledge
@@ -91,13 +91,18 @@ CREATE TABLE `obe_course_knowledge` (
   `is_deleted` tinyint(1) NOT NULL DEFAULT '0',
   `create_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COMMENT='课程_知识点';
+) ENGINE=MyISAM AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb4 COMMENT='课程_知识点';
 
 -- ----------------------------
 -- Records of obe_course_knowledge
 -- ----------------------------
-INSERT INTO `obe_course_knowledge` VALUES ('14', '6', '6', '38', '0', '2019-06-03 00:03:15');
-INSERT INTO `obe_course_knowledge` VALUES ('13', '5', '28', '41', '0', '2019-06-02 23:28:44');
+INSERT INTO `obe_course_knowledge` VALUES ('23', '6', '6', '38', '0', '2019-06-03 11:22:39');
+INSERT INTO `obe_course_knowledge` VALUES ('24', '6', '6', '40', '0', '2019-06-03 11:22:39');
+INSERT INTO `obe_course_knowledge` VALUES ('15', '3', '6', '38', '0', '2019-06-03 11:01:00');
+INSERT INTO `obe_course_knowledge` VALUES ('16', '3', '6', '39', '0', '2019-06-03 11:01:00');
+INSERT INTO `obe_course_knowledge` VALUES ('22', '5', '28', '42', '0', '2019-06-03 11:22:30');
+INSERT INTO `obe_course_knowledge` VALUES ('21', '5', '28', '43', '0', '2019-06-03 11:22:30');
+INSERT INTO `obe_course_knowledge` VALUES ('25', '4', '6', '40', '0', '2019-06-03 11:22:51');
 
 -- ----------------------------
 -- Table structure for obe_course_selection_record
@@ -214,13 +219,41 @@ CREATE TABLE `obe_performance` (
   KEY `student_id` (`student_id`),
   KEY `teacher_id` (`teacher_id`),
   KEY `course_id` (`course_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COMMENT='成绩列表';
+) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COMMENT='成绩列表';
 
 -- ----------------------------
 -- Records of obe_performance
 -- ----------------------------
-INSERT INTO `obe_performance` VALUES ('1', '3', '2', '1', null, '6', '111', '11', '0', '2019-05-25 23:44:11');
-INSERT INTO `obe_performance` VALUES ('2', '3', '2', '1', null, '4', '99', '11', '0', '2019-05-25 23:46:25');
+INSERT INTO `obe_performance` VALUES ('1', '3', '2', '1', null, '3', '111', '11', '0', '2019-06-03 14:56:46');
+INSERT INTO `obe_performance` VALUES ('2', '3', '2', '1', null, '5', '99', '11', '0', '2019-06-03 17:11:36');
+INSERT INTO `obe_performance` VALUES ('4', '3', '2', '3', null, '3', '75', '册', '0', '2019-06-03 18:11:35');
+
+-- ----------------------------
+-- Table structure for obe_performance_knowledge_record
+-- ----------------------------
+DROP TABLE IF EXISTS `obe_performance_knowledge_record`;
+CREATE TABLE `obe_performance_knowledge_record` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `course_id` int(11) NOT NULL DEFAULT '0' COMMENT '课程ID',
+  `student_id` int(11) NOT NULL DEFAULT '0',
+  `knowledge_id` int(11) NOT NULL DEFAULT '0' COMMENT '知识点ID',
+  `score` varchar(255) NOT NULL DEFAULT '' COMMENT '分数',
+  `is_deleted` tinyint(1) NOT NULL DEFAULT '0',
+  `create_at` datetime DEFAULT NULL,
+  `college_id` int(11) DEFAULT NULL COMMENT '学院ID',
+  `grade_id` int(11) DEFAULT NULL COMMENT '班级ID',
+  `performance_id` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `select` (`course_id`,`student_id`,`knowledge_id`,`college_id`,`grade_id`,`performance_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COMMENT='成绩_知识点_学生综合表';
+
+-- ----------------------------
+-- Records of obe_performance_knowledge_record
+-- ----------------------------
+INSERT INTO `obe_performance_knowledge_record` VALUES ('4', '5', '1', '43', '66', '0', '2019-06-03 17:11:36', '3', '2', '2');
+INSERT INTO `obe_performance_knowledge_record` VALUES ('3', '5', '1', '42', '77', '0', '2019-06-03 17:11:36', '3', '2', '2');
+INSERT INTO `obe_performance_knowledge_record` VALUES ('5', '3', '3', '38', '22', '0', '2019-06-03 18:11:35', '3', '2', '4');
+INSERT INTO `obe_performance_knowledge_record` VALUES ('6', '3', '3', '39', '77', '0', '2019-06-03 18:11:35', '3', '2', '4');
 
 -- ----------------------------
 -- Table structure for obe_profession
