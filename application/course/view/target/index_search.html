@@ -10,12 +10,12 @@
             </div>
         </div>
         <div class="layui-form-item layui-inline">
-            <label class="layui-form-label">选择课程</label>
+            <label class="layui-form-label">选择专业</label>
             <div class="layui-input-inline">
-                <select class="layui-select" name="course_id" id="course_id" lay-filter="course_id">
-                    <option selected value="">请选择课程</option>
-                    {foreach $courseData as $key => $course}
-                    {if isset($_GET['course_id']) and $_GET['course_id'] eq $key}
+                <select class="layui-select" name="profession_id" id="profession_id" >
+                    <option selected value="">请选择专业</option>
+                    {foreach $professionData as $key => $course}
+                    {if isset($_GET['profession_id']) and $_GET['profession_id'] eq $key}
                     <option selected value="{$key}">{$course}</option>
                     {else}
                     <option value="{$key}">{$course}</option>

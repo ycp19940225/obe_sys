@@ -2,11 +2,11 @@
 
 {block name="button"}
 
-{if auth("admin/user/add")}
+{if auth("course/index/add")}
 <button data-modal='{:url("add")}' data-title="添加课程" class='layui-btn layui-btn-sm layui-btn-primary'>添加课程</button>
 {/if}
 
-{if auth("admin/user/del")}
+{if auth("course/index/del")}
 <button data-action='{:url("del")}' data-rule="id#{key}" data-csrf="{:systoken('course/index/del')}" data-confirm="确定要删除这些课程吗？" class='layui-btn layui-btn-sm layui-btn-primary'>删除课程</button>
 {/if}
 
@@ -59,11 +59,11 @@
         <td class='text-left nowrap'>{$vo['count']-$vo['has_count']}</td>
         <td class='text-left nowrap'>{$teacherData[$vo.teacher_id]}</td>
         <td class='text-left nowrap'>
-            {if auth("admin/user/edit")}
+            {if auth("course/index/edit")}
             <a data-dbclick class="layui-btn layui-btn-sm" data-title="编辑用户" data-modal='{:url("edit")}?id={$vo.id}'>编 辑</a>
             {/if}
 
-            {if auth("admin/user/del")}
+            {if auth("course/index/del")}
             <a class="layui-btn layui-btn-sm layui-btn-danger" data-confirm="确定要删除该用户吗？" data-action="{:url('del')}" data-value="id#{$vo.id}" data-csrf="{:systoken('course/index/del')}">删 除</a>
             {/if}
         </td>

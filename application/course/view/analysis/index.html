@@ -17,22 +17,29 @@
     <caption class="margin-bottom-10 text-left">{include file='analysis/index_search'}</caption>
     <thead>
     <tr>
-        <th>班级名</th>
-        <th>人数</th>
+        <th>ID</th>
+        <th>学院</th>
+        <th>班级</th>
+        <th>课程名</th>
+        <th>学生</th>
+        <th>知识点分数</th>
+        <th>分数</th>
         <th></th>
     </tr>
     </thead>
     <tbody>
+    {volist name="recordData" id="item"}
     <tr>
-        <td>贤心</td>
-        <td>2016-11-29</td>
-        <td>人生就像是一场修行</td>
+        <td>{$item.id}</td>
+        <td>{$collegeData[$item['college_id']]}</td>
+        <td>{$gradeData[$item['grade_id']]}</td>
+        <td>{$courseData[$item['course_id']]}</td>
+        <td>{$studentData[$item['student_id']]['name']}</td>
+        <td>{$knowledgeData[$item['knowledge_id']]['name']}</td>
+        <td>{$item.score}</td>
     </tr>
-    <tr>
-        <td>许闲心</td>
-        <td>2016-11-28</td>
-        <td>于千万人之中遇见你所遇见的人，于千万年之中，时间的无涯的荒野里…</td>
-    </tr>
+    {/volist}
+    {$recordData->render()}
     </tbody>
 </table>
 <!--<div class="analysis">-->
