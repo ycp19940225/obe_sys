@@ -21,11 +21,10 @@
         <th class='list-table-check-td think-checkbox'>
             <input data-auto-none data-check-target='.list-check-box' type='checkbox'>
         </th>
-        <th class='text-left nowrap' style="width:120px">选课记录ID</th>
         <th class='text-left nowrap' style="width:120px">课程名称</th>
         <th class='text-left nowrap' style="width:120px">课程性质</th>
         <th class='text-left nowrap' style="width:120px">学生学院</th>
-        <th class='text-left nowrap' style="width:120px">学生ID</th>
+        <th class='text-left nowrap' style="width:120px">学生学号</th>
         <th class='text-left nowrap' style="width:120px">学生姓名</th>
         <th class='text-left nowrap' style="width:120px">学生学号</th>
         <th class='text-left nowrap' style="width:120px">教学老师</th>
@@ -40,9 +39,6 @@
     <tr data-dbclick>
         <td class='list-table-check-td think-checkbox'><input class="list-check-box" value='{$vo.id}' type='checkbox'></td>
         <td class='text-left nowrap'>
-            {$vo.id|default=''}
-        </td>
-        <td class='text-left nowrap'>
             {$courseData[$vo['course_id']]['name']}
         </td>
         <td class='text-left nowrap'>
@@ -52,7 +48,7 @@
             {$collegeData[$courseData[$vo['course_id']]['college_id']]}
         </td>
         <td class='text-left nowrap'>
-            {$studentData[$vo['student_id']]['id']}
+            {$studentData[$vo['student_id']]['student_number']}
         </td>
         <td class='text-left nowrap'>
             {$studentData[$vo['student_id']]['name']}
@@ -65,6 +61,9 @@
         </td>
         <td class='text-left nowrap'>
             {$courseData[$vo['course_id']]['credits']}
+        </td>
+        <td class='text-left nowrap'>
+            {$vo['create_at']}
         </td>
         <td class='text-left nowrap'>
             {if auth("course/record/edit")}

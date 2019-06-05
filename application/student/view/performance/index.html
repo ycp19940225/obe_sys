@@ -26,6 +26,7 @@
         <th class='text-left nowrap' style="width:150px">课程</th>
         <th class='text-left nowrap' style="width:120px">学生姓名</th>
         <th class='text-left nowrap' style="width:120px">学生学号</th>
+        <th class='text-left nowrap' style="width:150px">分数</th>
         <th class='text-left nowrap' style="width:150px">创建时间</th>
         <th class='text-left nowrap'></th>
     </tr>
@@ -40,6 +41,7 @@
         <td class='text-left nowrap'>{$courseData[$vo.course_id]}</td>
         <td class='text-left nowrap'>{$studentData[$vo.student_id]['name']}</td>
         <td class='text-left nowrap'>{$studentData[$vo.student_id]['code']}</td>
+        <td class='text-left nowrap'>{$vo.score|default=''}</td>
         <td class='text-left nowrap'>{$vo.create_at|default=''}</td>
 
         <td class='text-left nowrap'>

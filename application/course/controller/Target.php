@@ -34,7 +34,7 @@ class Target extends Controller
 
     public function index()
     {
-        $this->title = '课程目标列表';
+        $this->title = '教学计划列表';
         $where = ['is_deleted' => '0'];
 //        var_dump($this->request->request());
         $this->_query($this->table)->like('name')->equal('profession_id')->where($where)->page();

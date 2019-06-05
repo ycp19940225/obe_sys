@@ -17,12 +17,8 @@
     <caption class="margin-bottom-10 text-left">{include file='analysis/index_search'}</caption>
     <thead>
     <tr>
-        <th>所属学院</th>
-        <th>班级</th>
         <th>课程名</th>
-        <th>课程性质</th>
-        <th>教学老师</th>
-        <th>课程代码</th>
+        <th>班级</th>
         <th>平均分数</th>
         <th>知识点平均分数</th>
     </tr>
@@ -30,12 +26,8 @@
     <tbody>
     {foreach name="recordData" item="item" key="courseId"}
     <tr>
-        <td>{$collegeData[$courseData[$courseId]['college_id']]}</td>
+        <td>{$courseData[$courseId]}</td>
         <td>{$gradeData[$item['grade_id']]}</td>
-        <td>{$courseData[$courseId]['name']}</td>
-        <td>{$collegeTypeData[$courseData[$courseId]['course_type']]}</td>
-        <td>{$teacherData[$courseData[$courseId]['teacher_id']]}</td>
-        <td>{$courseData[$courseId]['code']}</td>
         <td>{$item['score_avg']}</td>
         <td>
             {foreach name="item['knowledgeData']" item="knowledge" key="knowledgeId"}

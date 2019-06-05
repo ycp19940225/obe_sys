@@ -68,7 +68,7 @@ class Index extends Controller
         }
         $courseData = db('obe_course')->where(['school_year' => $data['year']])->column('id, name, course_type, credits','id');
         $perDataIds = array_column($courseData, 'id');
-        $performanceData = db('obe_performance')->where(['student_id' => $data['id']])->where('course_id' ,'in', $perDataIds)->column('id, course_id, score', 'course_id');
+        $performanceData = db('obe_performance')->where(['student_id' => $data['studentId']])->where('course_id' ,'in', $perDataIds)->column('id, course_id, score', 'course_id');
         foreach ($courseData as $key => $v){
             if(isset($performanceData[$v['id']]['score'])){
                 $courseData[$key]['score'] = $performanceData[$v['id']]['score'];
@@ -91,6 +91,7 @@ class Index extends Controller
         $courseData = [];
         foreach ($tempData as $key => $val){
             $courseData[$val['id']]['id'] = $val['id'];
+            $courseData[$val['id']]['name'] = $val['name'];
             $courseData[$val['id']]['credits'] = $val['credits'];
             $courseData[$val['id']]['week_of_school'] = $val['week_of_school'];
             $courseData[$val['id']]['code'] = substr($val['code'], -8);
@@ -119,10 +120,18 @@ class Index extends Controller
         ];
         if($data['type'] == "true"){
             $whereData['create_at'] = date('Y-d-d H:i:s');
-            db('obe_course_selection_record')->insert($whereData);
-            $this->success('选课成功！', $data['type']);
+            $count = db('obe_course')->where(['id' =>$data['courseId']])->value('count');
+            if($count > 0){
+                db('obe_course_selection_record')->insert($whereData);
+                db('obe_course')->where(['id' =>$data['courseId']])->setDec('count');
+                $this->success('选课成功！', $data['type']);
+            }else{
+                $this->success('选课失败！课程容量不足', $data['type']);
+            }
+
         }else{
             db('obe_course_selection_record')->where($whereData)->delete();
+            db('obe_course')->where(['id' =>$data['courseId']])->setInc('count');
             $this->success('取消成功！', $data['type']);
         }
     }

@@ -29,7 +29,7 @@ class Analysis extends Controller
         $this->collegeData = db('obe_college')->where(['is_deleted' => '0'])->column('id, name', 'id');
         $this->teacherData = db('obe_teacher')->where(['is_deleted' => '0'])->column('id, name', 'id');
         $this->gradeData = db('obe_grade')->where(['is_deleted' => '0'])->column('id, name', 'id');
-        $this->courseData = db('obe_course')->where(['is_deleted' => '0'])->column('id, name, code, college_id, teacher_id,course_type', 'id');
+        $this->courseData = db('obe_course')->where(['is_deleted' => '0'])->column('id, name', 'id');
         $this->knowledgeData = db('obe_knowledge')->where(['is_deleted' => '0'])->column('id, name', 'id');
     }
 
@@ -45,15 +45,12 @@ class Analysis extends Controller
             if ($key == 'course_id' && !empty($requestDatum)){
                 $where['course_id'] = $requestDatum;
             }
-//            if ($key == 'teacher_id' && !empty($requestDatum)){
-//                $where['teacher_id'] = $requestDatum;
-//            }
         }
         $where['is_deleted'] = 0;
-        $recordData = db('obe_performance')->where($where)->select();
-        $performanceIds = array_column($recordData, 'id');
-        $knowledgeIds = array_column($recordData, 'knowledge_id');
-        $studentIds = array_column($recordData, 'student_id');
+        $recordData = db('obe_performance')->where($where)->paginate(10);
+        $performanceIds = array_column($recordData->toArray()['data'], 'id');
+        $knowledgeIds = array_column($recordData->toArray()['data'], 'knowledge_id');
+        $studentIds = array_column($recordData->toArray()['data'], 'student_id');
         $knowledgeTemp = db('obe_performance_knowledge_record')->where(['is_deleted' => 0])->where('performance_id', 'in', $performanceIds)->select();
         $knowledgeData = [];
         foreach ($knowledgeTemp as $datum){
@@ -64,15 +61,15 @@ class Analysis extends Controller
 
         //对数据信息统计
         $temp = [];
-        $recordData = $recordData;
+        $recordData = $recordData->toArray()['data'];
         foreach ($recordData as $key => $record){
             //以班进行分组(班级/课程/分数)
             $temp[$record['course_id']]['score'][] = $record['score'];
             $temp[$record['course_id']]['grade_id'] = $record['grade_id'];
             if(isset($knowledgeData[$record['id']])){
                 foreach ($knowledgeData[$record['id']] as $key2 => $knowledge){
-                    $temp[$record['course_id']]['knowledgeData'][$knowledge['knowledge_id']]['name'] = $this->knowledgeData[$knowledge['knowledge_id']];
-                    $temp[$record['course_id']]['knowledgeData'][$knowledge['knowledge_id']]['score'][] = $knowledge['score'];
+                    $temp[$record['course_id']]['knowledgeData'][$knowledge['id']]['name'] = $this->knowledgeData[$knowledge['knowledge_id']];
+                    $temp[$record['course_id']]['knowledgeData'][$knowledge['id']]['score'][] = $knowledge['score'];
                 }
             }
         }

@@ -3,7 +3,7 @@
 {block name="button"}
 
 {if auth("course/target/add")}
-<button data-modal='{:url("add")}' data-title="添加课程目标" class='layui-btn layui-btn-sm layui-btn-primary'>添加课程目标</button>
+<button data-modal='{:url("add")}' data-title="添加教学计划" class='layui-btn layui-btn-sm layui-btn-primary'>添加课程目标</button>
 {/if}
 
 {if auth("course/target/del")}
@@ -21,7 +21,7 @@
         <th class='list-table-check-td think-checkbox'>
             <input data-auto-none data-check-target='.list-check-box' type='checkbox'>
         </th>
-        <th class='text-left nowrap' style="width:250px">课程目标名称</th>
+        <th class='text-left nowrap' style="width:250px">教学计划名称</th>
         <th class='text-left nowrap' style="width:280px">对应专业</th>
         <th class='text-left nowrap' style="width:280px">创建时间</th>
         <th class='text-left nowrap'></th>

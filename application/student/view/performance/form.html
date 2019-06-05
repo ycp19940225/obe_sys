@@ -62,8 +62,8 @@
                 {if condition="!empty($editKnowledgeData)"}
                    {volist name="editKnowledgeData" id="editKnowledge"}
                         <div>
-                            <label class="layui-form-label">{$editKnowledge['name']}</label>
-                            <input name="knowledgeData[{$editKnowledge['id']}]" value="{$editKnowledge['score']}" placeholder="{$editKnowledge['name']}" class="layui-input" style="width:200px" required>
+                            <label class="layui-form-label" style="width:100px">{$editKnowledge['name']}</label>
+                            <input name="knowledgeData[{$editKnowledge['id']}]" value="{$editKnowledge['score']}" placeholder="{$editKnowledge['name']}" class="layui-input" style="width:300px" required>
                         </div>
                     {/volist}
                 {/if}
@@ -134,8 +134,8 @@
                         $('#knowledgeList').empty();
                         $.each(data, function (index, item) {
                             html = '<div>\n' +
-                                '                    <label class="layui-form-label">'+item+'</label>\n' +
-                                '                    <input name="knowledgeData['+index+']" value="" placeholder="请输入'+item+'分数" class="layui-input" style="width:200px" required>\n' +
+                                '                    <label class="layui-form-label" style="width:100px">'+item+'</label>\n' +
+                                '                    <input name="knowledgeData['+index+']" value="" placeholder="请输入'+item+'分数" class="layui-input" style="width:300px" required>\n' +
                                 '                </div>';
                             $('#knowledgeList').append(html);// 下拉菜单里添加元素
                         });
